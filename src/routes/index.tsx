@@ -287,15 +287,20 @@ function HeroBanner() {
         </div>
 
         <div className="hidden flex-col items-end justify-between md:flex">
-          <div className="flex gap-1.5">
-            {BANNER_SLIDES.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setI(idx)}
-                className={`h-1.5 rounded-full transition-all ${idx === i ? "w-6 bg-white" : "w-2.5 bg-white/40 hover:bg-white/70"}`}
-                aria-label={`Slide ${idx + 1}`}
-              />
-            ))}
+          <div className="flex items-center gap-2">
+            <span className="tabular-nums text-[11px] font-medium text-white/80">
+              {String(i + 1).padStart(2, "0")} <span className="text-white/50">/ {String(BANNER_SLIDES.length).padStart(2, "0")}</span>
+            </span>
+            <div className="ml-2 flex gap-1">
+              {BANNER_SLIDES.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setI(idx)}
+                  className={`h-1 rounded-full transition-all ${idx === i ? "w-5 bg-white" : "w-1.5 bg-white/35 hover:bg-white/60"}`}
+                  aria-label={`Slide ${idx + 1}`}
+                />
+              ))}
+            </div>
           </div>
           <div className="text-right text-white/85">
             <div className="text-[11px] uppercase tracking-[0.14em] text-white/70">Boss action queue</div>
@@ -325,9 +330,9 @@ function ManagerCard({ m, onOpen }: { m: Manager; onOpen: () => void }) {
   const s = MANAGER_STATS[m.id];
   const Icon = m.icon;
   const healthCfg =
-    s.health === "critical" ? { label: "Critical", color: "text-destructive", bg: "bg-destructive/15", ring: "ring-destructive/30" } :
-    s.health === "watch" ? { label: "Watch", color: "text-[color:var(--warning)]", bg: "bg-[color:var(--warning)]/15", ring: "ring-[color:var(--warning)]/30" } :
-    { label: "Healthy", color: "text-[color:var(--success)]", bg: "bg-[color:var(--success)]/15", ring: "ring-[color:var(--success)]/30" };
+    s.health === "critical" ? { label: "Critical", dot: "bg-destructive", text: "text-destructive", bg: "bg-destructive/12", ring: "ring-destructive/35" } :
+    s.health === "watch"    ? { label: "Watch",    dot: "bg-[color:var(--warning)]", text: "text-[color:var(--warning)]", bg: "bg-[color:var(--warning)]/12", ring: "ring-[color:var(--warning)]/35" } :
+                              { label: "Healthy",  dot: "bg-[color:var(--success)]", text: "text-[color:var(--success)]", bg: "bg-[color:var(--success)]/12", ring: "ring-[color:var(--success)]/35" };
 
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-border bg-[color:var(--surface)] p-4 transition-all hover:bg-[color:var(--surface-2)]" style={{ boxShadow: "var(--shadow-card)" }}>
@@ -342,7 +347,8 @@ function ManagerCard({ m, onOpen }: { m: Manager; onOpen: () => void }) {
             <div className="text-[11px] text-muted-foreground">Manager</div>
           </div>
         </div>
-        <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ring-1 ${healthCfg.bg} ${healthCfg.color} ${healthCfg.ring}`}>
+        <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-semibold ring-1 ${healthCfg.bg} ${healthCfg.text} ${healthCfg.ring}`}>
+          <span className={`h-1.5 w-1.5 rounded-full ${healthCfg.dot}`} />
           {healthCfg.label}
         </span>
       </div>
