@@ -144,30 +144,32 @@ function NexusLogin() {
   const ai = AI_LINES[stage];
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-[oklch(0.12_0.02_265)] text-[oklch(0.96_0.01_260)]">
+    <div className="relative min-h-screen w-full overflow-hidden bg-[oklch(0.10_0.02_265)] text-[oklch(0.96_0.01_260)]">
       <NexusBackground />
 
       {/* Top strip — security telemetry */}
-      <div className="relative z-20 mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-6 pt-5">
+      <div className="relative z-20 mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-6 pt-5 [animation:nx-fade-down_700ms_ease-out_both]">
         <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.16em] text-white/60">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 ring-1 ring-white/10">
-            <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px] shadow-emerald-400/70" />
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1 ring-1 ring-white/10 backdrop-blur-md">
+            <span className="relative size-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px] shadow-emerald-400/80">
+              <span className="absolute inset-0 animate-ping rounded-full bg-emerald-400/60" />
+            </span>
             Nexus OS · Operational
           </span>
-          <span className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 ring-1 ring-white/10">
+          <span className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1 ring-1 ring-white/10 backdrop-blur-md">
             <Server className="size-3" /> 42 regions
           </span>
-          <span className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 ring-1 ring-white/10">
+          <span className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1 ring-1 ring-white/10 backdrop-blur-md">
             <ShieldCheck className="size-3" /> 2FA active
           </span>
-          <span className="hidden lg:inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 ring-1 ring-white/10">
+          <span className="hidden lg:inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1 ring-1 ring-white/10 backdrop-blur-md">
             <Wifi className="size-3" /> Trusted device
           </span>
         </div>
         <div className="flex items-center gap-2 text-[11px] text-white/70">
           <button
             onClick={() => setLang((l) => (l === "EN" ? "हिं" : l === "हिं" ? "العربية" : "EN"))}
-            className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 ring-1 ring-white/10 hover:bg-white/10"
+            className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1 ring-1 ring-white/10 backdrop-blur-md transition-all hover:bg-white/[0.12] hover:ring-white/20"
           >
             <Languages className="size-3" /> {lang}
           </button>
@@ -179,26 +181,39 @@ function NexusLogin() {
 
       {/* Main grid */}
       <div className="relative z-10 mx-auto grid max-w-[1600px] grid-cols-1 gap-6 px-6 py-6 lg:grid-cols-[320px_minmax(0,1fr)_360px] xl:gap-8">
-        <LeftPanel />
-        <CenterPanel
-          method={method} setMethod={setMethod}
-          identifier={identifier} setIdentifier={setIdentifier}
-          password={password} setPassword={setPassword}
-          showPw={showPw} setShowPw={setShowPw}
-          remember={remember} setRemember={setRemember}
-          submitting={submitting} attempts={attempts}
-          onIdentifierFocus={onIdentifierFocus}
-          onPasswordFocus={onPasswordFocus}
-          onBlur={onBlur}
-          onSubmit={submit}
-          stage={stage}
-        />
-        <RightPanel ai={ai} stage={stage} voice={voice} setVoice={setVoice} setStage={setStage} />
+        <div className="[animation:nx-fade-up_900ms_120ms_cubic-bezier(.2,.7,.2,1)_both]">
+          <LeftPanel />
+        </div>
+        <div className="[animation:nx-fade-up_900ms_220ms_cubic-bezier(.2,.7,.2,1)_both]">
+          <CenterPanel
+            method={method} setMethod={setMethod}
+            identifier={identifier} setIdentifier={setIdentifier}
+            password={password} setPassword={setPassword}
+            showPw={showPw} setShowPw={setShowPw}
+            remember={remember} setRemember={setRemember}
+            submitting={submitting} attempts={attempts}
+            onIdentifierFocus={onIdentifierFocus}
+            onPasswordFocus={onPasswordFocus}
+            onBlur={onBlur}
+            onSubmit={submit}
+            stage={stage}
+          />
+        </div>
+        <div className="[animation:nx-fade-up_900ms_340ms_cubic-bezier(.2,.7,.2,1)_both]">
+          <RightPanel ai={ai} stage={stage} voice={voice} setVoice={setVoice} setStage={setStage} />
+        </div>
       </div>
 
       <footer className="relative z-10 mx-auto max-w-[1600px] px-6 pb-6 pt-2 text-center text-[11px] text-white/40">
         Software Vala Nexus OS · A global enterprise operating system · 12,000+ products · 1,000,000+ operators
       </footer>
+
+      <style>{`
+        @keyframes nx-fade-up { from { opacity: 0; transform: translateY(14px); filter: blur(6px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        @keyframes nx-fade-down { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes nx-shimmer { 0% { transform: translateX(-120%); } 100% { transform: translateX(220%); } }
+        @keyframes nx-aurora { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(2%,-1%,0) scale(1.05); } }
+      `}</style>
     </div>
   );
 }
@@ -260,12 +275,17 @@ function NexusBackground() {
           </g>
         ))}
       </svg>
-      {/* drifting orbs */}
-      <div className="absolute -left-24 top-1/3 size-[420px] rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.7 0.2 280 / 0.35), transparent 70%)" }} />
-      <div className="absolute -right-24 bottom-0 size-[460px] rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.7 0.2 200 / 0.30), transparent 70%)" }} />
+      {/* drifting aurora orbs */}
+      <div className="absolute -left-24 top-1/3 size-[460px] rounded-full blur-3xl [animation:nx-aurora_18s_ease-in-out_infinite]" style={{ background: "radial-gradient(circle, oklch(0.7 0.22 285 / 0.42), transparent 70%)" }} />
+      <div className="absolute -right-24 bottom-0 size-[520px] rounded-full blur-3xl [animation:nx-aurora_22s_ease-in-out_infinite_reverse]" style={{ background: "radial-gradient(circle, oklch(0.72 0.2 205 / 0.34), transparent 70%)" }} />
+      <div className="absolute left-1/2 top-0 size-[380px] -translate-x-1/2 rounded-full blur-3xl [animation:nx-aurora_26s_ease-in-out_infinite]" style={{ background: "radial-gradient(circle, oklch(0.7 0.2 320 / 0.28), transparent 70%)" }} />
+      {/* film grain */}
+      <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{
+        backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>\")",
+      }} />
       {/* vignette */}
       <div className="absolute inset-0" style={{
-        background: "radial-gradient(120% 80% at 50% 50%, transparent 50%, oklch(0 0 0 / 0.55) 100%)",
+        background: "radial-gradient(120% 80% at 50% 50%, transparent 50%, oklch(0 0 0 / 0.6) 100%)",
       }} />
     </div>
   );
@@ -358,20 +378,31 @@ function CenterPanel(props: {
 
   return (
     <section className="flex min-w-0 flex-col items-center justify-start">
-      <GlassCard className="w-full max-w-[520px] overflow-hidden p-0">
-        {/* Brand header */}
+      <GlassCard className="relative w-full max-w-[540px] overflow-hidden p-0">
+        {/* Ambient corner glows */}
+        <span aria-hidden className="pointer-events-none absolute -top-24 -right-20 size-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.7 0.22 285 / 0.35), transparent 70%)" }} />
+        <span aria-hidden className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.7 0.2 205 / 0.28), transparent 70%)" }} />
+
+        {/* Brand header — hero logo treatment */}
         <div className="relative px-7 pt-7">
-          <div className="flex items-center justify-between">
-            <BrandLogo variant="long" size={48} />
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-white/60 ring-1 ring-white/10">
-              <Crown className="size-3 text-amber-300" /> Nexus OS
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-3">
+              <BrandLogo variant="round" size={52} />
+              <div className="flex flex-col">
+                <BrandLogo variant="long" size={32} />
+                <span className="mt-1 text-[10px] uppercase tracking-[0.22em] text-white/45">Nexus OS · v4.2</span>
+              </div>
+            </div>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-400/15 to-amber-300/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-amber-200 ring-1 ring-amber-300/30 backdrop-blur-md">
+              <Crown className="size-3 text-amber-300" /> Founder
             </span>
           </div>
-          <div className="mt-5">
-            <h1 className="text-[26px] font-semibold leading-tight tracking-tight text-white">
-              Welcome back, Boss
+          <div className="mt-7">
+            <h1 className="text-[28px] font-semibold leading-[1.1] tracking-tight text-white">
+              Welcome back,{" "}
+              <span className="bg-gradient-to-r from-violet-200 via-fuchsia-200 to-cyan-200 bg-clip-text text-transparent">Boss</span>
             </h1>
-            <p className="mt-1 text-[13px] text-white/55">
+            <p className="mt-1.5 text-[13px] text-white/55">
               Sign in to enter the Software Vala universe.
             </p>
           </div>
@@ -388,11 +419,12 @@ function CenterPanel(props: {
                   type="button"
                   onClick={() => setMethod(m.id)}
                   className={[
-                    "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-medium transition-all",
+                    "relative inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-medium transition-all duration-300",
                     active
-                      ? "bg-white text-[oklch(0.18_0.02_265)] shadow-[0_10px_30px_-12px_oklch(0.85_0.18_270/0.7)]"
-                      : "bg-white/5 text-white/70 ring-1 ring-white/10 hover:bg-white/10",
+                      ? "text-white shadow-[0_10px_30px_-10px_oklch(0.6_0.22_285/0.8)] ring-1 ring-white/20"
+                      : "bg-white/[0.04] text-white/70 ring-1 ring-white/10 hover:bg-white/[0.08] hover:text-white/90",
                   ].join(" ")}
+                  style={active ? { background: "linear-gradient(135deg, oklch(0.5 0.22 290), oklch(0.55 0.2 240))" } : undefined}
                 >
                   <m.icon className="size-3.5" /> {m.label}
                 </button>
@@ -481,11 +513,14 @@ function CenterPanel(props: {
               <button
                 type="submit"
                 disabled={submitting}
-                className="group relative mt-2 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl px-4 py-3 text-[14px] font-semibold text-white shadow-[0_18px_40px_-14px_oklch(0.55_0.22_280/0.7)] transition-all hover:translate-y-[-1px] active:translate-y-0 disabled:opacity-70"
+                className="group relative mt-2 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl px-4 py-3.5 text-[14px] font-semibold text-white shadow-[0_20px_50px_-16px_oklch(0.55_0.22_280/0.8),inset_0_1px_0_oklch(1_0_0/0.22)] transition-all duration-300 hover:translate-y-[-1px] hover:shadow-[0_28px_60px_-18px_oklch(0.6_0.22_280/0.9),inset_0_1px_0_oklch(1_0_0/0.3)] active:translate-y-0 disabled:opacity-70"
                 style={{ background: "linear-gradient(135deg, oklch(0.55 0.22 285), oklch(0.58 0.2 240))" }}
               >
-                <span className="absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
-                  style={{ background: "linear-gradient(135deg, oklch(0.65 0.22 285), oklch(0.68 0.2 240))" }} />
+                {/* hover gradient swap */}
+                <span className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{ background: "linear-gradient(135deg, oklch(0.62 0.23 285), oklch(0.66 0.21 240))" }} />
+                {/* shimmer sweep */}
+                <span aria-hidden className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/35 to-transparent opacity-0 group-hover:opacity-100 [animation:nx-shimmer_1.8s_ease-in-out_infinite]" />
                 <span className="relative z-10 inline-flex items-center gap-2">
                   {submitting ? (
                     <>
@@ -874,23 +909,27 @@ function AIAvatar({ stage }: { stage: AIState }) {
 
 /* ============================ Primitives ============================ */
 
-function GlassCard({ className = "", children, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
+function GlassCard({ className = "", children, style, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       {...rest}
       className={[
-        "relative rounded-2xl bg-white/[0.04] ring-1 ring-white/10",
-        "shadow-[0_30px_80px_-30px_oklch(0_0_0/0.7)]",
-        "backdrop-blur-xl",
+        "relative rounded-2xl ring-1 ring-white/10",
+        "shadow-[0_40px_100px_-30px_oklch(0_0_0/0.8),inset_0_1px_0_oklch(1_0_0/0.08)]",
+        "backdrop-blur-2xl backdrop-saturate-150",
         className,
       ].join(" ")}
       style={{
         backgroundImage:
-          "linear-gradient(180deg, oklch(1 0 0 / 0.04), oklch(1 0 0 / 0.01))",
+          "linear-gradient(180deg, oklch(1 0 0 / 0.05), oklch(1 0 0 / 0.015) 40%, oklch(1 0 0 / 0.025))",
+        backgroundColor: "oklch(0.18 0.02 265 / 0.55)",
+        ...style,
       }}
     >
       {/* top sheen */}
-      <span aria-hidden className="pointer-events-none absolute inset-x-3 top-0 h-px rounded-full bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+      <span aria-hidden className="pointer-events-none absolute inset-x-3 top-0 h-px rounded-full bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+      {/* left edge highlight */}
+      <span aria-hidden className="pointer-events-none absolute inset-y-3 left-0 w-px rounded-full bg-gradient-to-b from-transparent via-white/15 to-transparent" />
       {children}
     </div>
   );
