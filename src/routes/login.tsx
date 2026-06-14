@@ -752,7 +752,7 @@ function RightPanel({ ai, stage, voice, setVoice, setStage }: {
 }
 
 function AIAvatar({ stage }: { stage: AIState }) {
-  const accent = {
+  const accentMap: Partial<Record<AIState, string>> = {
     greeting: "oklch(0.78 0.18 280)",
     success: "oklch(0.78 0.17 150)",
     wrongPass: "oklch(0.72 0.2 25)",
@@ -760,7 +760,8 @@ function AIAvatar({ stage }: { stage: AIState }) {
     securityAlert: "oklch(0.78 0.16 60)",
     serverError: "oklch(0.72 0.2 25)",
     vip: "oklch(0.85 0.17 80)",
-  }[stage] ?? "oklch(0.78 0.18 260)";
+  };
+  const accent = accentMap[stage] ?? "oklch(0.78 0.18 260)";
 
   // expression: brow tilt + smile curve
   const exp = {
