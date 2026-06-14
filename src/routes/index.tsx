@@ -347,7 +347,8 @@ function ManagerCard({ m, onOpen }: { m: Manager; onOpen: () => void }) {
             <div className="text-[11px] text-muted-foreground">Manager</div>
           </div>
         </div>
-        <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ring-1 ${healthCfg.bg} ${healthCfg.color} ${healthCfg.ring}`}>
+        <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[10px] font-semibold ring-1 ${healthCfg.bg} ${healthCfg.text} ${healthCfg.ring}`}>
+          <span className={`h-1.5 w-1.5 rounded-full ${healthCfg.dot}`} />
           {healthCfg.label}
         </span>
       </div>
