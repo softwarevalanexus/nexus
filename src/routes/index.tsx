@@ -118,10 +118,11 @@ function Sidebar({
     <aside className={`${w} relative flex h-full flex-col border-r border-border bg-[color:var(--surface)]/60 backdrop-blur-xl transition-[width] duration-300`}>
       <div className={`flex items-center gap-3 px-4 pt-5 pb-4 ${collapsed ? "justify-center" : ""}`}>
         {collapsed ? (
-          <BrandLogo variant="round" size={40} />
+          <BrandLogo variant="round" size={56} />
+
         ) : (
           <>
-            <BrandLogo variant="long" size={32} className="-ml-1" />
+            <BrandLogo variant="long" size={44} className="-ml-1" />
           </>
         )}
       </div>

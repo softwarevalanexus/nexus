@@ -37,22 +37,26 @@ function buildParticles(): Particle[] {
   const { glyphs, count } = pickEffect();
   const parts: Particle[] = [];
   for (let i = 0; i < count; i++) {
-    // emit in a hemisphere upward — feels like the button "puffed" magic
-    const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.1;
-    const dist = 70 + Math.random() * 90;
+    // Rain-like: emit gently around the logo, then drift slowly down with gravity
+    const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.4;
+    const dist = 50 + Math.random() * 70;
+    const driftX = Math.cos(angle) * dist + (Math.random() - 0.5) * 30;
+    // bias Y downward so particles "rain" rather than blast upward
+    const fallY = 90 + Math.random() * 140;
     parts.push({
       id: Math.random(),
-      x: Math.cos(angle) * dist,
-      y: Math.sin(angle) * dist,
-      rot: (Math.random() - 0.5) * 120,
-      scale: 0.85 + Math.random() * 0.9,
+      x: driftX,
+      y: fallY,
+      rot: (Math.random() - 0.5) * 60,
+      scale: 0.8 + Math.random() * 0.7,
       glyph: glyphs[i % glyphs.length],
-      dur: 1000 + Math.random() * 800,
-      delay: Math.random() * 140,
+      dur: 2600 + Math.random() * 1800, // slow fall: 2.6s – 4.4s
+      delay: Math.random() * 900,        // staggered like raindrops
     });
   }
   return parts;
 }
+
 
 /* ---------------- Component ---------------- */
 
@@ -88,7 +92,7 @@ export function BrandLogo({
     setPulseKey((k) => k + 1);
     window.setTimeout(() => {
       setBursts((b) => b.filter((x) => x.id !== id));
-    }, 2100);
+    }, 6500);
   }, []);
 
   const onMove = (e: React.PointerEvent) => {
@@ -307,7 +311,7 @@ export function BrandLogo({
               style={{
                 fontSize: b.rare ? 22 : 15,
                 transform: "translate(-50%, -50%)",
-                animation: `sv-float ${p.dur}ms cubic-bezier(.18,.9,.25,1.1) ${p.delay}ms forwards`,
+                animation: `sv-float ${p.dur}ms cubic-bezier(.25,.46,.45,.94) ${p.delay}ms forwards`,
                 ["--sv-x" as string]: `${p.x}px`,
                 ["--sv-y" as string]: `${p.y}px`,
                 ["--sv-rot" as string]: `${p.rot}deg`,
@@ -332,16 +336,24 @@ export function BrandLogo({
           50% { transform: scale(1.08); opacity: 0.9; }
         }
         @keyframes sv-float {
-          0%   { transform: translate(-50%, -50%) scale(0.35) rotate(0deg); opacity: 0; }
-          15%  { opacity: 1; }
+          0%   { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 0; }
+          12%  { opacity: 1; }
+          25%  {
+            transform:
+              translate(calc(-50% + calc(var(--sv-x) * 0.35)), calc(-50% + calc(var(--sv-y) * 0.2) - 14px))
+              scale(var(--sv-scale)) rotate(calc(var(--sv-rot) * 0.4));
+            opacity: 1;
+          }
+          80% { opacity: 0.85; }
           100% {
             transform:
-              translate(calc(-50% + var(--sv-x)), calc(-50% + var(--sv-y) - 28px))
-              scale(var(--sv-scale))
+              translate(calc(-50% + var(--sv-x)), calc(-50% + var(--sv-y)))
+              scale(calc(var(--sv-scale) * 0.9))
               rotate(var(--sv-rot));
             opacity: 0;
           }
         }
+
       `}</style>
     </button>
   );
