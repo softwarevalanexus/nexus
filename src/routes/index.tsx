@@ -330,9 +330,9 @@ function ManagerCard({ m, onOpen }: { m: Manager; onOpen: () => void }) {
   const s = MANAGER_STATS[m.id];
   const Icon = m.icon;
   const healthCfg =
-    s.health === "critical" ? { label: "Critical", color: "text-destructive", bg: "bg-destructive/15", ring: "ring-destructive/30" } :
-    s.health === "watch" ? { label: "Watch", color: "text-[color:var(--warning)]", bg: "bg-[color:var(--warning)]/15", ring: "ring-[color:var(--warning)]/30" } :
-    { label: "Healthy", color: "text-[color:var(--success)]", bg: "bg-[color:var(--success)]/15", ring: "ring-[color:var(--success)]/30" };
+    s.health === "critical" ? { label: "Critical", dot: "bg-destructive", text: "text-destructive", bg: "bg-destructive/12", ring: "ring-destructive/35" } :
+    s.health === "watch"    ? { label: "Watch",    dot: "bg-[color:var(--warning)]", text: "text-[color:var(--warning)]", bg: "bg-[color:var(--warning)]/12", ring: "ring-[color:var(--warning)]/35" } :
+                              { label: "Healthy",  dot: "bg-[color:var(--success)]", text: "text-[color:var(--success)]", bg: "bg-[color:var(--success)]/12", ring: "ring-[color:var(--success)]/35" };
 
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-border bg-[color:var(--surface)] p-4 transition-all hover:bg-[color:var(--surface-2)]" style={{ boxShadow: "var(--shadow-card)" }}>
