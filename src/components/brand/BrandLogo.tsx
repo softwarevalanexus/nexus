@@ -92,7 +92,7 @@ export function BrandLogo({
     setPulseKey((k) => k + 1);
     window.setTimeout(() => {
       setBursts((b) => b.filter((x) => x.id !== id));
-    }, 2100);
+    }, 6500);
   }, []);
 
   const onMove = (e: React.PointerEvent) => {
