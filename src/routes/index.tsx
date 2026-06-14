@@ -43,18 +43,17 @@ const MANAGER_STATS: Record<string, {
   approvals: number; reviews: number; bossActions: number;
   health: "healthy" | "watch" | "critical";
 }> = {
-  marketplace: { pending: 12, active: 48, waiting: 3, critical: 1, approvals: 4, reviews: 2, bossActions: 2, health: "healthy" },
-  product:     { pending: 7,  active: 22, waiting: 5, critical: 0, approvals: 2, reviews: 6, bossActions: 1, health: "healthy" },
-  development: { pending: 18, active: 31, waiting: 9, critical: 2, approvals: 1, reviews: 4, bossActions: 3, health: "watch" },
-  crm:         { pending: 4,  active: 14, waiting: 2, critical: 0, approvals: 0, reviews: 1, bossActions: 0, health: "healthy" },
-  sales:       { pending: 9,  active: 27, waiting: 6, critical: 1, approvals: 3, reviews: 2, bossActions: 2, health: "watch" },
-  support:     { pending: 23, active: 11, waiting: 4, critical: 3, approvals: 0, reviews: 1, bossActions: 1, health: "critical" },
-  finance:     { pending: 6,  active: 9,  waiting: 8, critical: 1, approvals: 5, reviews: 3, bossActions: 4, health: "watch" },
-  security:    { pending: 2,  active: 5,  waiting: 1, critical: 2, approvals: 1, reviews: 0, bossActions: 2, health: "critical" },
-  marketing:   { pending: 11, active: 19, waiting: 3, critical: 0, approvals: 2, reviews: 4, bossActions: 1, health: "healthy" },
-  reseller:    { pending: 5,  active: 12, waiting: 2, critical: 0, approvals: 1, reviews: 1, bossActions: 0, health: "healthy" },
-  affiliate:   { pending: 8,  active: 17, waiting: 4, critical: 0, approvals: 2, reviews: 0, bossActions: 1, health: "healthy" },
-  franchise:   { pending: 3,  active: 6,  waiting: 7, critical: 1, approvals: 4, reviews: 2, bossActions: 3, health: "watch" },
+  blackbox:      { pending: 8,  active: 34, waiting: 2, critical: 0, approvals: 1, reviews: 3, bossActions: 1, health: "healthy" },
+  marketplace:   { pending: 12, active: 48, waiting: 3, critical: 1, approvals: 4, reviews: 2, bossActions: 2, health: "healthy" },
+  usercustomer:  { pending: 24, active: 92, waiting: 6, critical: 1, approvals: 3, reviews: 5, bossActions: 2, health: "watch" },
+  reseller:      { pending: 5,  active: 12, waiting: 2, critical: 0, approvals: 1, reviews: 1, bossActions: 0, health: "healthy" },
+  franchise:     { pending: 3,  active: 6,  waiting: 7, critical: 1, approvals: 4, reviews: 2, bossActions: 3, health: "watch" },
+  influencer:    { pending: 9,  active: 21, waiting: 4, critical: 0, approvals: 2, reviews: 1, bossActions: 1, health: "healthy" },
+  affiliate:     { pending: 8,  active: 17, waiting: 4, critical: 0, approvals: 2, reviews: 0, bossActions: 1, health: "healthy" },
+  application:   { pending: 15, active: 28, waiting: 8, critical: 2, approvals: 1, reviews: 4, bossActions: 3, health: "watch" },
+  support:       { pending: 23, active: 11, waiting: 4, critical: 3, approvals: 0, reviews: 1, bossActions: 1, health: "critical" },
+  ams:           { pending: 6,  active: 14, waiting: 3, critical: 0, approvals: 2, reviews: 2, bossActions: 1, health: "healthy" },
+  content:       { pending: 11, active: 19, waiting: 3, critical: 0, approvals: 2, reviews: 4, bossActions: 1, health: "healthy" },
 };
 
 const BANNER_SLIDES = [
