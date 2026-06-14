@@ -8,6 +8,7 @@ import {
   CircleDot, Flame, BookLock, KeyRound, ChevronDown, Inbox,
 } from "lucide-react";
 import { BlackBoxWorkspace } from "@/components/blackbox/BlackBoxWorkspace";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -115,15 +116,13 @@ function Sidebar({
   const w = collapsed ? "w-[72px]" : "w-[244px]";
   return (
     <aside className={`${w} relative flex h-full flex-col border-r border-border bg-[color:var(--surface)]/60 backdrop-blur-xl transition-[width] duration-300`}>
-      <div className="flex items-center gap-3 px-4 pt-5 pb-4">
-        <div className="grid h-9 w-9 place-items-center rounded-xl" style={{ background: "var(--grad-violet)" }}>
-          <Crown className="h-5 w-5 text-white" />
-        </div>
-        {!collapsed && (
-          <div className="min-w-0">
-            <div className="truncate text-sm font-semibold">Founder OS</div>
-            <div className="truncate text-[11px] text-muted-foreground">Command Center</div>
-          </div>
+      <div className={`flex items-center gap-3 px-4 pt-5 pb-4 ${collapsed ? "justify-center" : ""}`}>
+        {collapsed ? (
+          <BrandLogo variant="round" size={40} />
+        ) : (
+          <>
+            <BrandLogo variant="long" size={32} className="-ml-1" />
+          </>
         )}
       </div>
 
