@@ -287,15 +287,20 @@ function HeroBanner() {
         </div>
 
         <div className="hidden flex-col items-end justify-between md:flex">
-          <div className="flex gap-1.5">
-            {BANNER_SLIDES.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setI(idx)}
-                className={`h-1.5 rounded-full transition-all ${idx === i ? "w-6 bg-white" : "w-2.5 bg-white/40 hover:bg-white/70"}`}
-                aria-label={`Slide ${idx + 1}`}
-              />
-            ))}
+          <div className="flex items-center gap-2">
+            <span className="tabular-nums text-[11px] font-medium text-white/80">
+              {String(i + 1).padStart(2, "0")} <span className="text-white/50">/ {String(BANNER_SLIDES.length).padStart(2, "0")}</span>
+            </span>
+            <div className="ml-2 flex gap-1">
+              {BANNER_SLIDES.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setI(idx)}
+                  className={`h-1 rounded-full transition-all ${idx === i ? "w-5 bg-white" : "w-1.5 bg-white/35 hover:bg-white/60"}`}
+                  aria-label={`Slide ${idx + 1}`}
+                />
+              ))}
+            </div>
           </div>
           <div className="text-right text-white/85">
             <div className="text-[11px] uppercase tracking-[0.14em] text-white/70">Boss action queue</div>
