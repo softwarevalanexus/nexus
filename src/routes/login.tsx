@@ -144,30 +144,32 @@ function NexusLogin() {
   const ai = AI_LINES[stage];
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-[oklch(0.12_0.02_265)] text-[oklch(0.96_0.01_260)]">
+    <div className="relative min-h-screen w-full overflow-hidden bg-[oklch(0.10_0.02_265)] text-[oklch(0.96_0.01_260)]">
       <NexusBackground />
 
       {/* Top strip — security telemetry */}
-      <div className="relative z-20 mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-6 pt-5">
+      <div className="relative z-20 mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-6 pt-5 [animation:nx-fade-down_700ms_ease-out_both]">
         <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.16em] text-white/60">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 ring-1 ring-white/10">
-            <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_10px] shadow-emerald-400/70" />
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1 ring-1 ring-white/10 backdrop-blur-md">
+            <span className="relative size-1.5 rounded-full bg-emerald-400 shadow-[0_0_12px] shadow-emerald-400/80">
+              <span className="absolute inset-0 animate-ping rounded-full bg-emerald-400/60" />
+            </span>
             Nexus OS · Operational
           </span>
-          <span className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 ring-1 ring-white/10">
+          <span className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1 ring-1 ring-white/10 backdrop-blur-md">
             <Server className="size-3" /> 42 regions
           </span>
-          <span className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 ring-1 ring-white/10">
+          <span className="hidden md:inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1 ring-1 ring-white/10 backdrop-blur-md">
             <ShieldCheck className="size-3" /> 2FA active
           </span>
-          <span className="hidden lg:inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 ring-1 ring-white/10">
+          <span className="hidden lg:inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1 ring-1 ring-white/10 backdrop-blur-md">
             <Wifi className="size-3" /> Trusted device
           </span>
         </div>
         <div className="flex items-center gap-2 text-[11px] text-white/70">
           <button
             onClick={() => setLang((l) => (l === "EN" ? "हिं" : l === "हिं" ? "العربية" : "EN"))}
-            className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 ring-1 ring-white/10 hover:bg-white/10"
+            className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1 ring-1 ring-white/10 backdrop-blur-md transition-all hover:bg-white/[0.12] hover:ring-white/20"
           >
             <Languages className="size-3" /> {lang}
           </button>
@@ -179,26 +181,39 @@ function NexusLogin() {
 
       {/* Main grid */}
       <div className="relative z-10 mx-auto grid max-w-[1600px] grid-cols-1 gap-6 px-6 py-6 lg:grid-cols-[320px_minmax(0,1fr)_360px] xl:gap-8">
-        <LeftPanel />
-        <CenterPanel
-          method={method} setMethod={setMethod}
-          identifier={identifier} setIdentifier={setIdentifier}
-          password={password} setPassword={setPassword}
-          showPw={showPw} setShowPw={setShowPw}
-          remember={remember} setRemember={setRemember}
-          submitting={submitting} attempts={attempts}
-          onIdentifierFocus={onIdentifierFocus}
-          onPasswordFocus={onPasswordFocus}
-          onBlur={onBlur}
-          onSubmit={submit}
-          stage={stage}
-        />
-        <RightPanel ai={ai} stage={stage} voice={voice} setVoice={setVoice} setStage={setStage} />
+        <div className="[animation:nx-fade-up_900ms_120ms_cubic-bezier(.2,.7,.2,1)_both]">
+          <LeftPanel />
+        </div>
+        <div className="[animation:nx-fade-up_900ms_220ms_cubic-bezier(.2,.7,.2,1)_both]">
+          <CenterPanel
+            method={method} setMethod={setMethod}
+            identifier={identifier} setIdentifier={setIdentifier}
+            password={password} setPassword={setPassword}
+            showPw={showPw} setShowPw={setShowPw}
+            remember={remember} setRemember={setRemember}
+            submitting={submitting} attempts={attempts}
+            onIdentifierFocus={onIdentifierFocus}
+            onPasswordFocus={onPasswordFocus}
+            onBlur={onBlur}
+            onSubmit={submit}
+            stage={stage}
+          />
+        </div>
+        <div className="[animation:nx-fade-up_900ms_340ms_cubic-bezier(.2,.7,.2,1)_both]">
+          <RightPanel ai={ai} stage={stage} voice={voice} setVoice={setVoice} setStage={setStage} />
+        </div>
       </div>
 
       <footer className="relative z-10 mx-auto max-w-[1600px] px-6 pb-6 pt-2 text-center text-[11px] text-white/40">
         Software Vala Nexus OS · A global enterprise operating system · 12,000+ products · 1,000,000+ operators
       </footer>
+
+      <style>{`
+        @keyframes nx-fade-up { from { opacity: 0; transform: translateY(14px); filter: blur(6px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        @keyframes nx-fade-down { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes nx-shimmer { 0% { transform: translateX(-120%); } 100% { transform: translateX(220%); } }
+        @keyframes nx-aurora { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(2%,-1%,0) scale(1.05); } }
+      `}</style>
     </div>
   );
 }
