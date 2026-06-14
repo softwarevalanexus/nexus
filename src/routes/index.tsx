@@ -7,6 +7,7 @@ import {
   Sparkles, Command, Star, History, Zap, Crown, Bot, ArrowUpRight, Pause, Play,
   CircleDot, Flame, BookLock, KeyRound, ChevronDown, Inbox,
 } from "lucide-react";
+import { BlackBoxWorkspace } from "@/components/blackbox/BlackBoxWorkspace";
 
 export const Route = createFileRoute("/")({
   head: () => ({
