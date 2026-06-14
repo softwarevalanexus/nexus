@@ -275,12 +275,17 @@ function NexusBackground() {
           </g>
         ))}
       </svg>
-      {/* drifting orbs */}
-      <div className="absolute -left-24 top-1/3 size-[420px] rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.7 0.2 280 / 0.35), transparent 70%)" }} />
-      <div className="absolute -right-24 bottom-0 size-[460px] rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.7 0.2 200 / 0.30), transparent 70%)" }} />
+      {/* drifting aurora orbs */}
+      <div className="absolute -left-24 top-1/3 size-[460px] rounded-full blur-3xl [animation:nx-aurora_18s_ease-in-out_infinite]" style={{ background: "radial-gradient(circle, oklch(0.7 0.22 285 / 0.42), transparent 70%)" }} />
+      <div className="absolute -right-24 bottom-0 size-[520px] rounded-full blur-3xl [animation:nx-aurora_22s_ease-in-out_infinite_reverse]" style={{ background: "radial-gradient(circle, oklch(0.72 0.2 205 / 0.34), transparent 70%)" }} />
+      <div className="absolute left-1/2 top-0 size-[380px] -translate-x-1/2 rounded-full blur-3xl [animation:nx-aurora_26s_ease-in-out_infinite]" style={{ background: "radial-gradient(circle, oklch(0.7 0.2 320 / 0.28), transparent 70%)" }} />
+      {/* film grain */}
+      <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{
+        backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>\")",
+      }} />
       {/* vignette */}
       <div className="absolute inset-0" style={{
-        background: "radial-gradient(120% 80% at 50% 50%, transparent 50%, oklch(0 0 0 / 0.55) 100%)",
+        background: "radial-gradient(120% 80% at 50% 50%, transparent 50%, oklch(0 0 0 / 0.6) 100%)",
       }} />
     </div>
   );
