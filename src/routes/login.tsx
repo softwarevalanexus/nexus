@@ -764,7 +764,7 @@ function AIAvatar({ stage }: { stage: AIState }) {
   const accent = accentMap[stage] ?? "oklch(0.78 0.18 260)";
 
   // expression: brow tilt + smile curve
-  const exp = {
+  const expMap: Record<AIState, { brow: number; smile: number; blink: boolean }> = {
     idle:         { brow: 0,  smile: 6,  blink: true  },
     greeting:     { brow: -2, smile: 10, blink: true  },
     typingUser:   { brow: -3, smile: 4,  blink: false },
@@ -782,7 +782,8 @@ function AIAvatar({ stage }: { stage: AIState }) {
     first:        { brow: -3, smile: 9,  blink: true  },
     securityAlert:{ brow: 4,  smile: 0,  blink: true  },
     multiDevice:  { brow: 0,  smile: 4,  blink: true  },
-  }[stage];
+  };
+  const exp = expMap[stage];
 
   return (
     <div className="relative size-full">
