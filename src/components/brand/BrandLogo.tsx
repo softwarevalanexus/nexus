@@ -336,16 +336,24 @@ export function BrandLogo({
           50% { transform: scale(1.08); opacity: 0.9; }
         }
         @keyframes sv-float {
-          0%   { transform: translate(-50%, -50%) scale(0.35) rotate(0deg); opacity: 0; }
-          15%  { opacity: 1; }
+          0%   { transform: translate(-50%, -50%) scale(0.5) rotate(0deg); opacity: 0; }
+          12%  { opacity: 1; }
+          25%  {
+            transform:
+              translate(calc(-50% + calc(var(--sv-x) * 0.35)), calc(-50% + calc(var(--sv-y) * 0.2) - 14px))
+              scale(var(--sv-scale)) rotate(calc(var(--sv-rot) * 0.4));
+            opacity: 1;
+          }
+          80% { opacity: 0.85; }
           100% {
             transform:
-              translate(calc(-50% + var(--sv-x)), calc(-50% + var(--sv-y) - 28px))
-              scale(var(--sv-scale))
+              translate(calc(-50% + var(--sv-x)), calc(-50% + var(--sv-y)))
+              scale(calc(var(--sv-scale) * 0.9))
               rotate(var(--sv-rot));
             opacity: 0;
           }
         }
+
       `}</style>
     </button>
   );
