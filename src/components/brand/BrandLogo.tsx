@@ -311,7 +311,7 @@ export function BrandLogo({
               style={{
                 fontSize: b.rare ? 22 : 15,
                 transform: "translate(-50%, -50%)",
-                animation: `sv-float ${p.dur}ms cubic-bezier(.18,.9,.25,1.1) ${p.delay}ms forwards`,
+                animation: `sv-float ${p.dur}ms cubic-bezier(.25,.46,.45,.94) ${p.delay}ms forwards`,
                 ["--sv-x" as string]: `${p.x}px`,
                 ["--sv-y" as string]: `${p.y}px`,
                 ["--sv-rot" as string]: `${p.rot}deg`,
