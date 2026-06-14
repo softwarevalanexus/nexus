@@ -23,18 +23,17 @@ export const Route = createFileRoute("/")({
 /* ------------------------------- Data ----------------------------------- */
 
 const MANAGERS = [
-  { id: "marketplace", label: "Marketplace", icon: Store, grad: "var(--grad-cyan)" },
-  { id: "product", label: "Product", icon: Package, grad: "var(--grad-violet)" },
-  { id: "development", label: "Development", icon: Code2, grad: "var(--grad-indigo)" },
-  { id: "crm", label: "CRM", icon: Users, grad: "var(--grad-teal)" },
-  { id: "sales", label: "Sales", icon: TrendingUp, grad: "var(--grad-emerald)" },
-  { id: "support", label: "Support", icon: LifeBuoy, grad: "var(--grad-amber)" },
-  { id: "finance", label: "Finance", icon: Wallet, grad: "var(--grad-rose)" },
-  { id: "security", label: "Security", icon: ShieldCheck, grad: "var(--grad-magenta)" },
-  { id: "marketing", label: "Marketing", icon: Megaphone, grad: "var(--grad-violet)" },
-  { id: "reseller", label: "Reseller", icon: Network, grad: "var(--grad-cyan)" },
-  { id: "affiliate", label: "Affiliate", icon: Handshake, grad: "var(--grad-emerald)" },
-  { id: "franchise", label: "Franchise", icon: Building2, grad: "var(--grad-indigo)" },
+  { id: "blackbox", label: "Black Box", icon: Package, grad: "var(--grad-violet)" },
+  { id: "marketplace", label: "Marketplace Manager", icon: Store, grad: "var(--grad-cyan)" },
+  { id: "usercustomer", label: "User / Customer Management", icon: Users, grad: "var(--grad-teal)" },
+  { id: "reseller", label: "Reseller Management", icon: Network, grad: "var(--grad-indigo)" },
+  { id: "franchise", label: "Franchise Management", icon: Building2, grad: "var(--grad-amber)" },
+  { id: "influencer", label: "Influencer Management", icon: Star, grad: "var(--grad-magenta)" },
+  { id: "affiliate", label: "Affiliate Management", icon: Handshake, grad: "var(--grad-emerald)" },
+  { id: "application", label: "Application Management", icon: Code2, grad: "var(--grad-rose)" },
+  { id: "support", label: "Support Management", icon: LifeBuoy, grad: "var(--grad-cyan)" },
+  { id: "ams", label: "AMS", icon: TrendingUp, grad: "var(--grad-violet)" },
+  { id: "content", label: "Content Management", icon: Megaphone, grad: "var(--grad-indigo)" },
 ] as const;
 
 type Manager = (typeof MANAGERS)[number];
