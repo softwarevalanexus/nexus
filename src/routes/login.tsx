@@ -513,11 +513,14 @@ function CenterPanel(props: {
               <button
                 type="submit"
                 disabled={submitting}
-                className="group relative mt-2 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl px-4 py-3 text-[14px] font-semibold text-white shadow-[0_18px_40px_-14px_oklch(0.55_0.22_280/0.7)] transition-all hover:translate-y-[-1px] active:translate-y-0 disabled:opacity-70"
+                className="group relative mt-2 inline-flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl px-4 py-3.5 text-[14px] font-semibold text-white shadow-[0_20px_50px_-16px_oklch(0.55_0.22_280/0.8),inset_0_1px_0_oklch(1_0_0/0.22)] transition-all duration-300 hover:translate-y-[-1px] hover:shadow-[0_28px_60px_-18px_oklch(0.6_0.22_280/0.9),inset_0_1px_0_oklch(1_0_0/0.3)] active:translate-y-0 disabled:opacity-70"
                 style={{ background: "linear-gradient(135deg, oklch(0.55 0.22 285), oklch(0.58 0.2 240))" }}
               >
-                <span className="absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100"
-                  style={{ background: "linear-gradient(135deg, oklch(0.65 0.22 285), oklch(0.68 0.2 240))" }} />
+                {/* hover gradient swap */}
+                <span className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{ background: "linear-gradient(135deg, oklch(0.62 0.23 285), oklch(0.66 0.21 240))" }} />
+                {/* shimmer sweep */}
+                <span aria-hidden className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/35 to-transparent opacity-0 group-hover:opacity-100 [animation:nx-shimmer_1.8s_ease-in-out_infinite]" />
                 <span className="relative z-10 inline-flex items-center gap-2">
                   {submitting ? (
                     <>
