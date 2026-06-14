@@ -909,23 +909,27 @@ function AIAvatar({ stage }: { stage: AIState }) {
 
 /* ============================ Primitives ============================ */
 
-function GlassCard({ className = "", children, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
+function GlassCard({ className = "", children, style, ...rest }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       {...rest}
       className={[
-        "relative rounded-2xl bg-white/[0.04] ring-1 ring-white/10",
-        "shadow-[0_30px_80px_-30px_oklch(0_0_0/0.7)]",
-        "backdrop-blur-xl",
+        "relative rounded-2xl ring-1 ring-white/10",
+        "shadow-[0_40px_100px_-30px_oklch(0_0_0/0.8),inset_0_1px_0_oklch(1_0_0/0.08)]",
+        "backdrop-blur-2xl backdrop-saturate-150",
         className,
       ].join(" ")}
       style={{
         backgroundImage:
-          "linear-gradient(180deg, oklch(1 0 0 / 0.04), oklch(1 0 0 / 0.01))",
+          "linear-gradient(180deg, oklch(1 0 0 / 0.05), oklch(1 0 0 / 0.015) 40%, oklch(1 0 0 / 0.025))",
+        backgroundColor: "oklch(0.18 0.02 265 / 0.55)",
+        ...style,
       }}
     >
       {/* top sheen */}
-      <span aria-hidden className="pointer-events-none absolute inset-x-3 top-0 h-px rounded-full bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+      <span aria-hidden className="pointer-events-none absolute inset-x-3 top-0 h-px rounded-full bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+      {/* left edge highlight */}
+      <span aria-hidden className="pointer-events-none absolute inset-y-3 left-0 w-px rounded-full bg-gradient-to-b from-transparent via-white/15 to-transparent" />
       {children}
     </div>
   );
