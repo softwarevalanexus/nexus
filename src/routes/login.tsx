@@ -378,20 +378,31 @@ function CenterPanel(props: {
 
   return (
     <section className="flex min-w-0 flex-col items-center justify-start">
-      <GlassCard className="w-full max-w-[520px] overflow-hidden p-0">
-        {/* Brand header */}
+      <GlassCard className="relative w-full max-w-[540px] overflow-hidden p-0">
+        {/* Ambient corner glows */}
+        <span aria-hidden className="pointer-events-none absolute -top-24 -right-20 size-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.7 0.22 285 / 0.35), transparent 70%)" }} />
+        <span aria-hidden className="pointer-events-none absolute -bottom-24 -left-20 size-64 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, oklch(0.7 0.2 205 / 0.28), transparent 70%)" }} />
+
+        {/* Brand header — hero logo treatment */}
         <div className="relative px-7 pt-7">
-          <div className="flex items-center justify-between">
-            <BrandLogo variant="long" size={48} />
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-white/5 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-white/60 ring-1 ring-white/10">
-              <Crown className="size-3 text-amber-300" /> Nexus OS
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-3">
+              <BrandLogo variant="round" size={52} />
+              <div className="flex flex-col">
+                <BrandLogo variant="long" size={32} />
+                <span className="mt-1 text-[10px] uppercase tracking-[0.22em] text-white/45">Nexus OS · v4.2</span>
+              </div>
+            </div>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-400/15 to-amber-300/10 px-2.5 py-1 text-[10px] uppercase tracking-[0.18em] text-amber-200 ring-1 ring-amber-300/30 backdrop-blur-md">
+              <Crown className="size-3 text-amber-300" /> Founder
             </span>
           </div>
-          <div className="mt-5">
-            <h1 className="text-[26px] font-semibold leading-tight tracking-tight text-white">
-              Welcome back, Boss
+          <div className="mt-7">
+            <h1 className="text-[28px] font-semibold leading-[1.1] tracking-tight text-white">
+              Welcome back,{" "}
+              <span className="bg-gradient-to-r from-violet-200 via-fuchsia-200 to-cyan-200 bg-clip-text text-transparent">Boss</span>
             </h1>
-            <p className="mt-1 text-[13px] text-white/55">
+            <p className="mt-1.5 text-[13px] text-white/55">
               Sign in to enter the Software Vala universe.
             </p>
           </div>
@@ -408,11 +419,12 @@ function CenterPanel(props: {
                   type="button"
                   onClick={() => setMethod(m.id)}
                   className={[
-                    "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-medium transition-all",
+                    "relative inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] font-medium transition-all duration-300",
                     active
-                      ? "bg-white text-[oklch(0.18_0.02_265)] shadow-[0_10px_30px_-12px_oklch(0.85_0.18_270/0.7)]"
-                      : "bg-white/5 text-white/70 ring-1 ring-white/10 hover:bg-white/10",
+                      ? "text-white shadow-[0_10px_30px_-10px_oklch(0.6_0.22_285/0.8)] ring-1 ring-white/20"
+                      : "bg-white/[0.04] text-white/70 ring-1 ring-white/10 hover:bg-white/[0.08] hover:text-white/90",
                   ].join(" ")}
+                  style={active ? { background: "linear-gradient(135deg, oklch(0.5 0.22 290), oklch(0.55 0.2 240))" } : undefined}
                 >
                   <m.icon className="size-3.5" /> {m.label}
                 </button>
