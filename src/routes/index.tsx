@@ -122,7 +122,7 @@ function Sidebar({
 
         ) : (
           <>
-            <BrandLogo variant="long" size={32} className="-ml-1" />
+            <BrandLogo variant="long" size={44} className="-ml-1" />
           </>
         )}
       </div>
