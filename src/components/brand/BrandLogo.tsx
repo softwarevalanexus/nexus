@@ -37,22 +37,26 @@ function buildParticles(): Particle[] {
   const { glyphs, count } = pickEffect();
   const parts: Particle[] = [];
   for (let i = 0; i < count; i++) {
-    // emit in a hemisphere upward — feels like the button "puffed" magic
-    const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.1;
-    const dist = 70 + Math.random() * 90;
+    // Rain-like: emit gently around the logo, then drift slowly down with gravity
+    const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.4;
+    const dist = 50 + Math.random() * 70;
+    const driftX = Math.cos(angle) * dist + (Math.random() - 0.5) * 30;
+    // bias Y downward so particles "rain" rather than blast upward
+    const fallY = 90 + Math.random() * 140;
     parts.push({
       id: Math.random(),
-      x: Math.cos(angle) * dist,
-      y: Math.sin(angle) * dist,
-      rot: (Math.random() - 0.5) * 120,
-      scale: 0.85 + Math.random() * 0.9,
+      x: driftX,
+      y: fallY,
+      rot: (Math.random() - 0.5) * 60,
+      scale: 0.8 + Math.random() * 0.7,
       glyph: glyphs[i % glyphs.length],
-      dur: 1000 + Math.random() * 800,
-      delay: Math.random() * 140,
+      dur: 2600 + Math.random() * 1800, // slow fall: 2.6s – 4.4s
+      delay: Math.random() * 900,        // staggered like raindrops
     });
   }
   return parts;
 }
+
 
 /* ---------------- Component ---------------- */
 
