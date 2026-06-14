@@ -7,6 +7,7 @@ import {
   Sparkles, Command, Star, History, Zap, Crown, Bot, ArrowUpRight, Pause, Play,
   CircleDot, Flame, BookLock, KeyRound, ChevronDown, Inbox,
 } from "lucide-react";
+import { BlackBoxWorkspace } from "@/components/blackbox/BlackBoxWorkspace";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -86,9 +87,15 @@ function CommandCenter() {
           <TopBar />
           <div className="flex min-h-0 flex-1 gap-4 px-5 pb-3 pt-2">
             <main className="min-w-0 flex-1 overflow-y-auto scrollbar-thin pr-1">
-              <HeroBanner />
-              <ManagerGrid onOpen={setActiveManager} />
-              <HomeSections />
+              {activeManager === "blackbox" ? (
+                <BlackBoxWorkspace />
+              ) : (
+                <>
+                  <HeroBanner />
+                  <ManagerGrid onOpen={setActiveManager} />
+                  <HomeSections />
+                </>
+              )}
               <div className="h-4" />
             </main>
             <ContextPanel />
