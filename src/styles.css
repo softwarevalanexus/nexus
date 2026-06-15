@@ -128,4 +128,7 @@
   .ring-soft { box-shadow: 0 0 0 1px var(--border); }
   .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
   .scrollbar-thin::-webkit-scrollbar-thumb { background: oklch(1 0 0 / 10%); border-radius: 999px; }
+  .mp-hide-scrollbar::-webkit-scrollbar { display: none; }
+  .mp-hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }
+
