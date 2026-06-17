@@ -111,7 +111,6 @@ function CommandCenter() {
             </main>
             {isHome && <ContextPanel />}
           </div>
-          {isHome && <ActionStrip />}
         </div>
       </div>
     </div>
@@ -737,6 +736,8 @@ function ContextPanel() {
         {tab === "mentions" && <MentionsTab />}
         {tab === "alerts" && <AlertsTab />}
       </div>
+
+      <ActionStrip />
     </aside>
   );
 }
