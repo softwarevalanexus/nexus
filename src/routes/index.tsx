@@ -736,6 +736,8 @@ function ContextPanel() {
         {tab === "mentions" && <MentionsTab />}
         {tab === "alerts" && <AlertsTab />}
       </div>
+
+      <ActionStrip />
     </aside>
   );
 }
