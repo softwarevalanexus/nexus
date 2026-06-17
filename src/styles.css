@@ -41,55 +41,59 @@
 :root {
   --radius: 0.875rem;
 
-  /* Deep workspace dark — premium founder console */
-  --background: oklch(0.16 0.02 260);
-  --foreground: oklch(0.97 0.005 250);
+  /* Midnight Sapphire + Champagne Gold — 7D luxury enterprise */
+  --background: oklch(0.17 0.045 265);
+  --foreground: oklch(0.97 0.01 90);
 
-  --surface: oklch(0.205 0.022 262);      /* main cards */
-  --surface-2: oklch(0.235 0.024 262);    /* nested */
-  --surface-3: oklch(0.27 0.026 262);     /* hover */
+  --surface: oklch(0.215 0.05 265);       /* main cards */
+  --surface-2: oklch(0.255 0.052 265);    /* nested */
+  --surface-3: oklch(0.30 0.055 265);     /* hover */
 
-  --card: oklch(0.205 0.022 262);
-  --card-foreground: oklch(0.97 0.005 250);
+  --card: oklch(0.215 0.05 265);
+  --card-foreground: oklch(0.97 0.01 90);
 
-  --popover: oklch(0.22 0.024 262);
-  --popover-foreground: oklch(0.97 0.005 250);
+  --popover: oklch(0.235 0.05 265);
+  --popover-foreground: oklch(0.97 0.01 90);
 
-  --primary: oklch(0.78 0.16 215);        /* cyan accent from ref */
-  --primary-foreground: oklch(0.16 0.02 260);
+  /* Champagne gold — primary brand */
+  --primary: oklch(0.80 0.105 82);
+  --primary-foreground: oklch(0.18 0.045 265);
 
-  --secondary: oklch(0.27 0.026 262);
-  --secondary-foreground: oklch(0.97 0.005 250);
+  --secondary: oklch(0.30 0.055 265);
+  --secondary-foreground: oklch(0.97 0.01 90);
 
-  --muted: oklch(0.245 0.022 262);
-  --muted-foreground: oklch(0.68 0.02 258);
+  --muted: oklch(0.26 0.05 265);
+  --muted-foreground: oklch(0.72 0.02 80);
 
-  --accent: oklch(0.7 0.18 295);          /* violet */
-  --accent-foreground: oklch(0.99 0 0);
+  --accent: oklch(0.86 0.09 86);          /* light champagne */
+  --accent-foreground: oklch(0.18 0.045 265);
 
-  --destructive: oklch(0.66 0.22 22);
+  --destructive: oklch(0.66 0.20 22);
   --destructive-foreground: oklch(0.99 0 0);
 
-  --success: oklch(0.74 0.16 158);
-  --warning: oklch(0.82 0.16 80);
-  --info: oklch(0.74 0.14 240);
+  --success: oklch(0.78 0.14 158);
+  --warning: oklch(0.83 0.14 80);
+  --info: oklch(0.74 0.12 240);
 
-  --border: oklch(1 0 0 / 7%);
-  --input: oklch(1 0 0 / 10%);
-  --ring: oklch(0.78 0.16 215);
+  --border: oklch(0.78 0.10 82 / 14%);
+  --input: oklch(0.78 0.10 82 / 16%);
+  --ring: oklch(0.80 0.105 82);
 
-  /* Gradients used in hero banner slides */
-  --grad-cyan: linear-gradient(135deg, oklch(0.62 0.18 230), oklch(0.78 0.16 195));
-  --grad-violet: linear-gradient(135deg, oklch(0.45 0.18 295), oklch(0.7 0.18 320));
-  --grad-amber: linear-gradient(135deg, oklch(0.55 0.16 40), oklch(0.78 0.17 75));
-  --grad-emerald: linear-gradient(135deg, oklch(0.45 0.14 175), oklch(0.72 0.16 158));
-  --grad-rose: linear-gradient(135deg, oklch(0.5 0.2 10), oklch(0.72 0.18 30));
-  --grad-indigo: linear-gradient(135deg, oklch(0.35 0.16 270), oklch(0.6 0.18 250));
-  --grad-teal: linear-gradient(135deg, oklch(0.4 0.12 200), oklch(0.74 0.14 180));
-  --grad-magenta: linear-gradient(135deg, oklch(0.45 0.22 340), oklch(0.7 0.2 320));
+  /* Brand gradients — sapphire/gold luxury family */
+  --grad-cyan: linear-gradient(135deg, oklch(0.32 0.08 260), oklch(0.55 0.10 240));
+  --grad-violet: linear-gradient(135deg, oklch(0.30 0.08 270), oklch(0.55 0.12 285));
+  --grad-amber: linear-gradient(135deg, oklch(0.55 0.12 70), oklch(0.82 0.11 85));
+  --grad-emerald: linear-gradient(135deg, oklch(0.36 0.08 200), oklch(0.62 0.11 175));
+  --grad-rose: linear-gradient(135deg, oklch(0.45 0.16 18), oklch(0.70 0.14 35));
+  --grad-indigo: linear-gradient(135deg, oklch(0.24 0.08 265), oklch(0.45 0.12 260));
+  --grad-teal: linear-gradient(135deg, oklch(0.32 0.07 220), oklch(0.60 0.10 200));
+  --grad-magenta: linear-gradient(135deg, oklch(0.40 0.14 340), oklch(0.68 0.14 20));
+  --grad-gold: linear-gradient(135deg, oklch(0.62 0.10 78), oklch(0.86 0.11 86));
+  --grad-sapphire: linear-gradient(135deg, oklch(0.18 0.05 265), oklch(0.32 0.09 260));
 
-  --shadow-card: 0 1px 0 oklch(1 0 0 / 5%) inset, 0 10px 30px -12px oklch(0 0 0 / 55%);
-  --shadow-elevated: 0 1px 0 oklch(1 0 0 / 6%) inset, 0 20px 50px -20px oklch(0 0 0 / 70%);
+  --shadow-card: 0 1px 0 oklch(0.86 0.09 86 / 8%) inset, 0 14px 36px -16px oklch(0 0 0 / 65%);
+  --shadow-elevated: 0 1px 0 oklch(0.86 0.09 86 / 10%) inset, 0 28px 60px -22px oklch(0 0 0 / 75%);
+  --shadow-gold: 0 0 0 1px oklch(0.80 0.105 82 / 22%), 0 18px 50px -18px oklch(0.80 0.105 82 / 35%);
 }
 
 .dark {
