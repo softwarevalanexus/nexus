@@ -5,7 +5,8 @@ import {
   Megaphone, Network, Handshake, Building2, ChevronLeft, ChevronRight, Search,
   Bell, MessageSquare, AtSign, AlertTriangle, CheckCircle2, Clock, Activity,
   Sparkles, Command, Star, History, Zap, Crown, Bot, ArrowUpRight, Pause, Play,
-  CircleDot, Flame, BookLock, KeyRound, ChevronDown, Inbox,
+  CircleDot, Flame, BookLock, KeyRound, ChevronDown, Inbox, ArrowLeft, Filter,
+  Download, Plus, MoreHorizontal,
 } from "lucide-react";
 import { BlackBoxWorkspace } from "@/components/blackbox/BlackBoxWorkspace";
 import { BrandLogo } from "@/components/brand/BrandLogo";
