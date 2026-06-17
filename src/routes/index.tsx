@@ -5,7 +5,8 @@ import {
   Megaphone, Network, Handshake, Building2, ChevronLeft, ChevronRight, Search,
   Bell, MessageSquare, AtSign, AlertTriangle, CheckCircle2, Clock, Activity,
   Sparkles, Command, Star, History, Zap, Crown, Bot, ArrowUpRight, Pause, Play,
-  CircleDot, Flame, BookLock, KeyRound, ChevronDown, Inbox,
+  CircleDot, Flame, BookLock, KeyRound, ChevronDown, Inbox, ArrowLeft, Filter,
+  Download, Plus, MoreHorizontal,
 } from "lucide-react";
 import { BlackBoxWorkspace } from "@/components/blackbox/BlackBoxWorkspace";
 import { BrandLogo } from "@/components/brand/BrandLogo";
@@ -78,6 +79,8 @@ const BANNER_SLIDES = [
 function CommandCenter() {
   const [collapsed, setCollapsed] = useState(false);
   const [activeManager, setActiveManager] = useState<string>("home");
+  const isHome = activeManager === "home";
+  const activeMeta = MANAGERS.find((m) => m.id === activeManager);
 
   return (
     <div className="h-screen w-full overflow-hidden text-foreground">
@@ -88,20 +91,158 @@ function CommandCenter() {
           <TopBar />
           <div className="flex min-h-0 flex-1 gap-4 px-5 pb-3 pt-2">
             <main className="min-w-0 flex-1 overflow-y-auto scrollbar-thin pr-1">
-              {activeManager === "blackbox" ? (
-                <BlackBoxWorkspace />
-              ) : (
+              {isHome ? (
                 <>
                   <HeroBanner />
                   <ManagerGrid onOpen={setActiveManager} />
                   <HomeSections />
                 </>
+              ) : (
+                <ModuleShell
+                  manager={activeMeta}
+                  onBack={() => setActiveManager("home")}
+                >
+                  {activeManager === "blackbox"
+                    ? <BlackBoxWorkspace />
+                    : <ManagerWorkspace manager={activeMeta!} />}
+                </ModuleShell>
               )}
               <div className="h-4" />
             </main>
-            <ContextPanel />
+            {isHome && <ContextPanel />}
           </div>
-          <ActionStrip />
+          {isHome && <ActionStrip />}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ----------------------------- Module Shell ----------------------------- */
+
+function ModuleShell({
+  manager, onBack, children,
+}: { manager: Manager | undefined; onBack: () => void; children: React.ReactNode }) {
+  const Icon = manager?.icon ?? Package;
+  return (
+    <section className="mt-1">
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-3">
+          <button
+            onClick={onBack}
+            className="group inline-flex items-center gap-1.5 rounded-full border border-border bg-[color:var(--surface)] px-3 py-1.5 text-xs font-medium text-muted-foreground transition-colors hover:bg-[color:var(--surface-2)] hover:text-foreground"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Back to Dashboard
+          </button>
+          <span className="h-5 w-px bg-border" />
+          <div className="flex items-center gap-2.5">
+            <div className="grid h-9 w-9 place-items-center rounded-xl ring-1 ring-white/10" style={{ background: manager?.grad ?? "var(--grad-gold)" }}>
+              <Icon className="h-4.5 w-4.5 text-white" />
+            </div>
+            <div className="leading-tight">
+              <div className="text-[10px] uppercase tracking-[0.16em] text-muted-foreground">Boss Panel · Module</div>
+              <h1 className="text-[15px] font-semibold tracking-tight">{manager?.label ?? "Module"}</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+/* -------------------------- Generic Manager Workspace -------------------- */
+
+function ManagerWorkspace({ manager }: { manager: Manager }) {
+  const [tab, setTab] = useState<"overview" | "records" | "analytics" | "settings">("overview");
+  const s = MANAGER_STATS[manager.id];
+
+  return (
+    <div className="space-y-4">
+      {/* Module actions + filters */}
+      <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-border bg-[color:var(--surface)]/80 p-2 backdrop-blur-xl" style={{ boxShadow: "var(--shadow-card)" }}>
+        <div className="flex items-center gap-1">
+          {(["overview","records","analytics","settings"] as const).map((t) => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={`rounded-lg px-3 py-1.5 text-xs font-medium capitalize transition-colors ${
+                tab === t ? "bg-[color:var(--surface-3)] text-foreground ring-1 ring-border" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+        <div className="ml-2 flex items-center gap-1.5 rounded-lg border border-border bg-[color:var(--surface-2)] px-2 py-1.5">
+          <Search className="h-3.5 w-3.5 text-muted-foreground" />
+          <input className="w-56 bg-transparent text-xs outline-none placeholder:text-muted-foreground" placeholder={`Search ${manager.label.toLowerCase()}…`} />
+        </div>
+        <button className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-[color:var(--surface-2)] px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground">
+          <Filter className="h-3.5 w-3.5" /> Filter
+        </button>
+        <div className="ml-auto flex items-center gap-2">
+          <button className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-[color:var(--surface-2)] px-2.5 py-1.5 text-xs text-muted-foreground hover:text-foreground">
+            <Download className="h-3.5 w-3.5" /> Export
+          </button>
+          <button className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:opacity-90">
+            <Plus className="h-3.5 w-3.5" /> New
+          </button>
+        </div>
+      </div>
+
+      {/* Module KPI strip (module-scoped, NOT homepage KPIs) */}
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {[
+          { l: "Pending", v: s.pending },
+          { l: "Active", v: s.active },
+          { l: "Waiting", v: s.waiting },
+          { l: "Critical", v: s.critical, danger: true },
+        ].map((k) => (
+          <div key={k.l} className="rounded-2xl border border-border bg-[color:var(--surface)] p-4" style={{ boxShadow: "var(--shadow-card)" }}>
+            <div className="text-[10px] uppercase tracking-[0.14em] text-muted-foreground">{k.l}</div>
+            <div className={`mt-1 text-2xl font-semibold tabular-nums ${k.danger && k.v > 0 ? "text-destructive" : ""}`}>{k.v}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Workspace body */}
+      <div className="rounded-2xl border border-border bg-[color:var(--surface)] p-0 overflow-hidden" style={{ boxShadow: "var(--shadow-card)" }}>
+        <div className="flex items-center justify-between border-b border-border px-4 py-3">
+          <div className="flex items-center gap-2">
+            <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+            <h2 className="text-sm font-semibold">{manager.label} · Records</h2>
+          </div>
+          <button className="text-[11px] text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
+            <MoreHorizontal className="h-3.5 w-3.5" />
+          </button>
+        </div>
+        <div className="divide-y divide-border">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div key={i} className="grid grid-cols-12 items-center gap-3 px-4 py-3 text-sm hover:bg-[color:var(--surface-2)]">
+              <div className="col-span-5 flex items-center gap-3 min-w-0">
+                <div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg ring-1 ring-white/10" style={{ background: manager.grad }}>
+                  <span className="text-[10px] font-bold text-white">{String(i + 1).padStart(2, "0")}</span>
+                </div>
+                <div className="min-w-0">
+                  <div className="truncate font-medium">{manager.label} record #{1000 + i}</div>
+                  <div className="truncate text-[11px] text-muted-foreground">Owner · {["Devika","Karan","Naina","Vikram","Arjun"][i % 5]}</div>
+                </div>
+              </div>
+              <div className="col-span-2 text-[12px] text-muted-foreground">Updated {i + 1}h ago</div>
+              <div className="col-span-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-[color:var(--surface-2)] px-2 py-0.5 text-[10px] font-semibold ring-1 ring-border">
+                  <span className={`h-1.5 w-1.5 rounded-full ${i % 4 === 0 ? "bg-destructive" : i % 3 === 0 ? "bg-[color:var(--warning)]" : "bg-[color:var(--success)]"}`} />
+                  {i % 4 === 0 ? "Critical" : i % 3 === 0 ? "Watch" : "Healthy"}
+                </span>
+              </div>
+              <div className="col-span-2 text-right text-[12px] tabular-nums text-muted-foreground">{(s.active * (i + 1)).toLocaleString()} ops</div>
+              <div className="col-span-1 flex justify-end">
+                <button className="rounded-md border border-border bg-[color:var(--surface-2)] px-2 py-1 text-[11px] hover:bg-[color:var(--surface-3)]">Open</button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
