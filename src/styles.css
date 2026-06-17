@@ -97,8 +97,8 @@
 }
 
 .dark {
-  --background: oklch(0.16 0.02 260);
-  --foreground: oklch(0.97 0.005 250);
+  --background: oklch(0.17 0.045 265);
+  --foreground: oklch(0.97 0.01 90);
 }
 
 @layer base {
@@ -110,8 +110,9 @@
     font-family: ui-sans-serif, system-ui, -apple-system, "Inter", "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
     background-image:
-      radial-gradient(ellipse 80% 50% at 20% 0%, oklch(0.3 0.08 260 / 0.35), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 100% 100%, oklch(0.3 0.1 295 / 0.25), transparent 60%);
+      radial-gradient(ellipse 90% 60% at 12% -10%, oklch(0.32 0.10 265 / 0.55), transparent 60%),
+      radial-gradient(ellipse 70% 45% at 100% 110%, oklch(0.55 0.10 80 / 0.18), transparent 60%),
+      linear-gradient(180deg, oklch(0.15 0.045 265), oklch(0.18 0.05 265));
     background-attachment: fixed;
   }
 }
