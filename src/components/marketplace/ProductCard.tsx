@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "@tanstack/react-router";
 import { Eye, ShoppingCart, ShoppingBag, Heart, Star, Sparkles, Users, TrendingUp } from "lucide-react";
 import type { Product } from "@/lib/marketplaceData";
 
@@ -12,6 +13,8 @@ export const ProductCard = ({ product }: Props) => {
   const [viewers, setViewers] = useState(12);
 
   const aiScore = Math.round(82 + (product.rating - 4) * 18);
+  const detailHref = { to: "/marketplace/product/$id" as const, params: { id: product.id } };
+  const stop = (e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); };
 
   useEffect(() => {
     const t = setInterval(() => setViewers(8 + Math.floor(Math.random() * 40)), 4000);

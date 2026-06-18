@@ -12,6 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MarketplacePageRouteImport } from './routes/marketplace.$page'
+import { Route as MarketplaceVendorIdRouteImport } from './routes/marketplace.vendor.$id'
+import { Route as MarketplaceProductIdRouteImport } from './routes/marketplace.product.$id'
+import { Route as MarketplacePartnerSlugRouteImport } from './routes/marketplace.partner.$slug'
+import { Route as MarketplaceIndustrySlugRouteImport } from './routes/marketplace.industry.$slug'
+import { Route as MarketplaceCategorySlugRouteImport } from './routes/marketplace.category.$slug'
 
 const MarketplaceRoute = MarketplaceRouteImport.update({
   id: '/marketplace',
@@ -28,35 +34,111 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MarketplacePageRoute = MarketplacePageRouteImport.update({
+  id: '/$page',
+  path: '/$page',
+  getParentRoute: () => MarketplaceRoute,
+} as any)
+const MarketplaceVendorIdRoute = MarketplaceVendorIdRouteImport.update({
+  id: '/vendor/$id',
+  path: '/vendor/$id',
+  getParentRoute: () => MarketplaceRoute,
+} as any)
+const MarketplaceProductIdRoute = MarketplaceProductIdRouteImport.update({
+  id: '/product/$id',
+  path: '/product/$id',
+  getParentRoute: () => MarketplaceRoute,
+} as any)
+const MarketplacePartnerSlugRoute = MarketplacePartnerSlugRouteImport.update({
+  id: '/partner/$slug',
+  path: '/partner/$slug',
+  getParentRoute: () => MarketplaceRoute,
+} as any)
+const MarketplaceIndustrySlugRoute = MarketplaceIndustrySlugRouteImport.update({
+  id: '/industry/$slug',
+  path: '/industry/$slug',
+  getParentRoute: () => MarketplaceRoute,
+} as any)
+const MarketplaceCategorySlugRoute = MarketplaceCategorySlugRouteImport.update({
+  id: '/category/$slug',
+  path: '/category/$slug',
+  getParentRoute: () => MarketplaceRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/marketplace': typeof MarketplaceRoute
+  '/marketplace': typeof MarketplaceRouteWithChildren
+  '/marketplace/$page': typeof MarketplacePageRoute
+  '/marketplace/category/$slug': typeof MarketplaceCategorySlugRoute
+  '/marketplace/industry/$slug': typeof MarketplaceIndustrySlugRoute
+  '/marketplace/partner/$slug': typeof MarketplacePartnerSlugRoute
+  '/marketplace/product/$id': typeof MarketplaceProductIdRoute
+  '/marketplace/vendor/$id': typeof MarketplaceVendorIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/marketplace': typeof MarketplaceRoute
+  '/marketplace': typeof MarketplaceRouteWithChildren
+  '/marketplace/$page': typeof MarketplacePageRoute
+  '/marketplace/category/$slug': typeof MarketplaceCategorySlugRoute
+  '/marketplace/industry/$slug': typeof MarketplaceIndustrySlugRoute
+  '/marketplace/partner/$slug': typeof MarketplacePartnerSlugRoute
+  '/marketplace/product/$id': typeof MarketplaceProductIdRoute
+  '/marketplace/vendor/$id': typeof MarketplaceVendorIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/marketplace': typeof MarketplaceRoute
+  '/marketplace': typeof MarketplaceRouteWithChildren
+  '/marketplace/$page': typeof MarketplacePageRoute
+  '/marketplace/category/$slug': typeof MarketplaceCategorySlugRoute
+  '/marketplace/industry/$slug': typeof MarketplaceIndustrySlugRoute
+  '/marketplace/partner/$slug': typeof MarketplacePartnerSlugRoute
+  '/marketplace/product/$id': typeof MarketplaceProductIdRoute
+  '/marketplace/vendor/$id': typeof MarketplaceVendorIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/marketplace'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/marketplace'
+    | '/marketplace/$page'
+    | '/marketplace/category/$slug'
+    | '/marketplace/industry/$slug'
+    | '/marketplace/partner/$slug'
+    | '/marketplace/product/$id'
+    | '/marketplace/vendor/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/marketplace'
-  id: '__root__' | '/' | '/login' | '/marketplace'
+  to:
+    | '/'
+    | '/login'
+    | '/marketplace'
+    | '/marketplace/$page'
+    | '/marketplace/category/$slug'
+    | '/marketplace/industry/$slug'
+    | '/marketplace/partner/$slug'
+    | '/marketplace/product/$id'
+    | '/marketplace/vendor/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/marketplace'
+    | '/marketplace/$page'
+    | '/marketplace/category/$slug'
+    | '/marketplace/industry/$slug'
+    | '/marketplace/partner/$slug'
+    | '/marketplace/product/$id'
+    | '/marketplace/vendor/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
-  MarketplaceRoute: typeof MarketplaceRoute
+  MarketplaceRoute: typeof MarketplaceRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -82,24 +164,78 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/marketplace/$page': {
+      id: '/marketplace/$page'
+      path: '/$page'
+      fullPath: '/marketplace/$page'
+      preLoaderRoute: typeof MarketplacePageRouteImport
+      parentRoute: typeof MarketplaceRoute
+    }
+    '/marketplace/vendor/$id': {
+      id: '/marketplace/vendor/$id'
+      path: '/vendor/$id'
+      fullPath: '/marketplace/vendor/$id'
+      preLoaderRoute: typeof MarketplaceVendorIdRouteImport
+      parentRoute: typeof MarketplaceRoute
+    }
+    '/marketplace/product/$id': {
+      id: '/marketplace/product/$id'
+      path: '/product/$id'
+      fullPath: '/marketplace/product/$id'
+      preLoaderRoute: typeof MarketplaceProductIdRouteImport
+      parentRoute: typeof MarketplaceRoute
+    }
+    '/marketplace/partner/$slug': {
+      id: '/marketplace/partner/$slug'
+      path: '/partner/$slug'
+      fullPath: '/marketplace/partner/$slug'
+      preLoaderRoute: typeof MarketplacePartnerSlugRouteImport
+      parentRoute: typeof MarketplaceRoute
+    }
+    '/marketplace/industry/$slug': {
+      id: '/marketplace/industry/$slug'
+      path: '/industry/$slug'
+      fullPath: '/marketplace/industry/$slug'
+      preLoaderRoute: typeof MarketplaceIndustrySlugRouteImport
+      parentRoute: typeof MarketplaceRoute
+    }
+    '/marketplace/category/$slug': {
+      id: '/marketplace/category/$slug'
+      path: '/category/$slug'
+      fullPath: '/marketplace/category/$slug'
+      preLoaderRoute: typeof MarketplaceCategorySlugRouteImport
+      parentRoute: typeof MarketplaceRoute
+    }
   }
 }
+
+interface MarketplaceRouteChildren {
+  MarketplacePageRoute: typeof MarketplacePageRoute
+  MarketplaceCategorySlugRoute: typeof MarketplaceCategorySlugRoute
+  MarketplaceIndustrySlugRoute: typeof MarketplaceIndustrySlugRoute
+  MarketplacePartnerSlugRoute: typeof MarketplacePartnerSlugRoute
+  MarketplaceProductIdRoute: typeof MarketplaceProductIdRoute
+  MarketplaceVendorIdRoute: typeof MarketplaceVendorIdRoute
+}
+
+const MarketplaceRouteChildren: MarketplaceRouteChildren = {
+  MarketplacePageRoute: MarketplacePageRoute,
+  MarketplaceCategorySlugRoute: MarketplaceCategorySlugRoute,
+  MarketplaceIndustrySlugRoute: MarketplaceIndustrySlugRoute,
+  MarketplacePartnerSlugRoute: MarketplacePartnerSlugRoute,
+  MarketplaceProductIdRoute: MarketplaceProductIdRoute,
+  MarketplaceVendorIdRoute: MarketplaceVendorIdRoute,
+}
+
+const MarketplaceRouteWithChildren = MarketplaceRoute._addFileChildren(
+  MarketplaceRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
-  MarketplaceRoute: MarketplaceRoute,
+  MarketplaceRoute: MarketplaceRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
