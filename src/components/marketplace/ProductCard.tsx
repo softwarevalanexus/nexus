@@ -101,11 +101,11 @@ export const ProductCard = ({ product }: Props) => {
           </div>
 
           {hovered && (
-            <div className="mt-3 flex gap-2 animate-in slide-in-from-bottom-2 duration-300">
-              <button className="flex flex-1 items-center justify-center gap-1 rounded-lg border border-white/10 bg-white/5 py-2 text-xs font-semibold text-foreground backdrop-blur-md transition-all hover:border-cyan-400/40 hover:bg-white/10 hover:shadow-[0_0_18px_-4px_rgba(34,211,238,0.5)]">
+            <div className="relative z-20 mt-3 flex gap-2 animate-in slide-in-from-bottom-2 duration-300">
+              <Link {...detailHref} className="flex flex-1 items-center justify-center gap-1 rounded-lg border border-white/10 bg-white/5 py-2 text-xs font-semibold text-foreground backdrop-blur-md transition-all hover:border-cyan-400/40 hover:bg-white/10 hover:shadow-[0_0_18px_-4px_rgba(34,211,238,0.5)]">
                 <Eye className="h-3.5 w-3.5" /> Details
-              </button>
-              <button className="group/cta relative flex flex-1 items-center justify-center gap-1 overflow-hidden rounded-lg bg-gradient-to-r from-cyan-500 via-cyan-400 to-fuchsia-500 py-2 text-xs font-bold text-background shadow-[0_8px_24px_-8px_rgba(34,211,238,0.7)] transition-all hover:shadow-[0_12px_30px_-8px_rgba(34,211,238,0.9)]">
+              </Link>
+              <button onClick={stop} className="group/cta relative flex flex-1 items-center justify-center gap-1 overflow-hidden rounded-lg bg-gradient-to-r from-cyan-500 via-cyan-400 to-fuchsia-500 py-2 text-xs font-bold text-background shadow-[0_8px_24px_-8px_rgba(34,211,238,0.7)] transition-all hover:shadow-[0_12px_30px_-8px_rgba(34,211,238,0.9)]">
                 <ShoppingBag className="h-3.5 w-3.5" /> Buy Now
                 <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-700 group-hover/cta:translate-x-full" />
               </button>
