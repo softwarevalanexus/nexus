@@ -131,7 +131,7 @@ function MarketplacePage() {
                     {col.items.map((l) => (
                       <Link
                         key={l.l}
-                        to={l.h}
+                        to={l.h as string}
                         className="block text-xs text-muted-foreground transition-colors hover:text-foreground"
                       >
                         {l.l}
