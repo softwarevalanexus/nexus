@@ -47,22 +47,20 @@ export const ProductCard = ({ product }: Props) => {
             {viewers} viewing
           </div>
           {hovered && (
-            <div className="absolute inset-0 flex items-center justify-center gap-2 bg-background/70 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="absolute inset-0 z-20 flex items-center justify-center gap-2 bg-background/70 backdrop-blur-sm animate-in fade-in duration-200">
               <button
-                onClick={() => setIsFav(v => !v)}
+                onClick={(e) => { stop(e); setIsFav(v => !v); }}
                 aria-pressed={isFav}
                 className={`flex h-9 w-9 items-center justify-center rounded-full transition-colors ${isFav ? "bg-primary text-primary-foreground" : "bg-card/90 text-muted-foreground hover:bg-primary hover:text-primary-foreground"}`}
                 title={isFav ? "Remove from favorites" : "Add to favorites"}
               >
                 <Heart className={`h-4 w-4 ${isFav ? "fill-current" : ""}`} />
               </button>
-              <button
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform hover:scale-110"
-                title="View Details"
-              >
+              <Link {...detailHref} className="flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition-transform hover:scale-110" title="View Details">
                 <Eye className="h-4 w-4" />
-              </button>
+              </Link>
               <button
+                onClick={stop}
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-card/90 text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
                 title="Add to Cart"
               >
