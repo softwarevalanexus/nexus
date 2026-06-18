@@ -29,6 +29,7 @@ export const ProductCard = ({ product }: Props) => {
     >
       <div className="pointer-events-none absolute -inset-1.5 rounded-2xl bg-gradient-to-br from-cyan-500/0 via-fuchsia-500/0 to-cyan-500/0 opacity-0 blur-2xl transition-opacity duration-500 group-hover:from-cyan-500/35 group-hover:via-fuchsia-500/25 group-hover:to-cyan-500/35 group-hover:opacity-100" />
       <div className="relative overflow-hidden rounded-xl border border-white/[0.07] bg-gradient-to-b from-card to-[oklch(0.14_0.02_260)] shadow-[0_10px_30px_-12px_rgba(0,0,0,0.6),inset_0_1px_0_0_rgba(255,255,255,0.04)] transition-all duration-500 ease-out group-hover:-translate-y-1 group-hover:border-cyan-400/50 group-hover:shadow-[0_30px_60px_-20px_rgba(34,211,238,0.45),0_0_0_1px_rgba(34,211,238,0.25),inset_0_1px_0_0_rgba(255,255,255,0.08)]">
+        <Link {...detailHref} aria-label={product.name} className="absolute inset-0 z-10" />
         <span aria-hidden className="pointer-events-none absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
         <div className="relative aspect-[16/10] w-full overflow-hidden">
