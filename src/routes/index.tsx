@@ -81,6 +81,7 @@ function CommandCenter() {
   const [collapsed, setCollapsed] = useState(false);
   const [activeManager, setActiveManager] = useState<string>("home");
   const isHome = activeManager === "home";
+  const isAms = activeManager === "ams";
   const activeMeta = MANAGERS.find((m) => m.id === activeManager);
 
   return (
@@ -89,31 +90,37 @@ function CommandCenter() {
         <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} active={activeManager} onSelect={setActiveManager} />
 
         <div className="flex h-full min-w-0 flex-1 flex-col">
-          <TopBar />
-          <div className="flex min-h-0 flex-1 gap-4 px-5 pb-3 pt-2">
-            <main className="min-w-0 flex-1 overflow-y-auto scrollbar-thin pr-1">
-              {isHome ? (
-                <>
-                  <HeroBanner />
-                  <ManagerGrid onOpen={setActiveManager} />
-                  <HomeSections />
-                </>
-              ) : (
-                <ModuleShell
-                  manager={activeMeta}
-                  onBack={() => setActiveManager("home")}
-                >
-                  {activeManager === "blackbox"
-                    ? <BlackBoxWorkspace />
-                    : activeManager === "ams"
-                      ? <AMSModule />
-                      : <ManagerWorkspace manager={activeMeta!} />}
-                </ModuleShell>
-              )}
-              <div className="h-4" />
+          {isAms ? (
+            <main className="min-h-0 min-w-0 flex-1 overflow-y-auto scrollbar-thin">
+              <AMSModule />
             </main>
-            {isHome && <ContextPanel />}
-          </div>
+          ) : (
+            <>
+              <TopBar />
+              <div className="flex min-h-0 flex-1 gap-4 px-5 pb-3 pt-2">
+                <main className="min-w-0 flex-1 overflow-y-auto scrollbar-thin pr-1">
+                  {isHome ? (
+                    <>
+                      <HeroBanner />
+                      <ManagerGrid onOpen={setActiveManager} />
+                      <HomeSections />
+                    </>
+                  ) : (
+                    <ModuleShell
+                      manager={activeMeta}
+                      onBack={() => setActiveManager("home")}
+                    >
+                      {activeManager === "blackbox"
+                        ? <BlackBoxWorkspace />
+                        : <ManagerWorkspace manager={activeMeta!} />}
+                    </ModuleShell>
+                  )}
+                  <div className="h-4" />
+                </main>
+                {isHome && <ContextPanel />}
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
