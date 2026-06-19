@@ -105,7 +105,9 @@ function CommandCenter() {
                 >
                   {activeManager === "blackbox"
                     ? <BlackBoxWorkspace />
-                    : <ManagerWorkspace manager={activeMeta!} />}
+                    : activeManager === "ams"
+                      ? <AMSModule />
+                      : <ManagerWorkspace manager={activeMeta!} />}
                 </ModuleShell>
               )}
               <div className="h-4" />
