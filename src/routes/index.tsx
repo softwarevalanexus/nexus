@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { BlackBoxWorkspace } from "@/components/blackbox/BlackBoxWorkspace";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import AMSModule from "@/components/ams/AMSModule";
 
 export const Route = createFileRoute("/")({
   head: () => ({
