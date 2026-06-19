@@ -136,3 +136,103 @@
   .mp-hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }
 
+
+/* ============================================================
+ * AMS module — preserved Navy + Gold visual system (do not theme)
+ * ============================================================ */
+@layer base {
+  .font-display {
+    font-family: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+    letter-spacing: 0.01em;
+  }
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #d4a14a 0%, #f5d77a 50%, #b4892a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .bg-gold-gradient {
+    background: linear-gradient(135deg, #d4a14a 0%, #f5d77a 50%, #b4892a 100%);
+  }
+  .border-gold { border-color: oklch(0.78 0.14 82 / 0.4); }
+
+  .gold-frame {
+    position: relative;
+    background: linear-gradient(160deg, oklch(0.18 0.03 250) 0%, oklch(0.12 0.025 250) 100%);
+    border: 1px solid oklch(0.78 0.14 82 / 0.3);
+    box-shadow: 0 20px 60px -20px oklch(0.05 0 0 / 0.6), inset 0 1px 0 oklch(0.78 0.14 82 / 0.15);
+  }
+  .gold-frame::before {
+    content: "";
+    position: absolute; inset: 0; border-radius: inherit; padding: 1px;
+    background: linear-gradient(135deg, oklch(0.78 0.14 82 / 0.6), transparent 40%, transparent 60%, oklch(0.62 0.13 75 / 0.5));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;
+  }
+  .spotlight::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at top, oklch(0.78 0.14 82 / 0.18) 0%, transparent 60%);
+    pointer-events: none; border-radius: inherit;
+  }
+
+  @keyframes ams-shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+  .shimmer-text {
+    background: linear-gradient(90deg, #b4892a 0%, #f5d77a 25%, #fff3c4 50%, #f5d77a 75%, #b4892a 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    animation: ams-shimmer 4s linear infinite;
+  }
+
+  @keyframes ams-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .float-anim { animation: ams-float 5s ease-in-out infinite; }
+
+  @keyframes ams-particle {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-120px) scale(0.4); opacity: 0; }
+  }
+  .gold-particle {
+    position: absolute; width: 4px; height: 4px; border-radius: 50%;
+    background: radial-gradient(circle, #fff3c4, #d4a14a);
+    box-shadow: 0 0 8px #f5d77a;
+    animation: ams-particle 6s linear infinite;
+  }
+
+  @keyframes ams-award-idle {
+    0%, 100% { transform: perspective(900px) rotateY(-8deg) rotateX(4deg) translateY(0); }
+    50%      { transform: perspective(900px) rotateY(8deg)  rotateX(-2deg) translateY(-6px); }
+  }
+  .award-3d {
+    transform-style: preserve-3d;
+    animation: ams-award-idle 7s ease-in-out infinite;
+    filter: drop-shadow(0 24px 30px rgba(212,161,74,0.45)) drop-shadow(0 6px 12px rgba(0,0,0,0.6));
+    transition: transform 0.5s cubic-bezier(.2,.8,.2,1), filter 0.5s;
+    will-change: transform;
+  }
+  .award-3d:hover {
+    animation-play-state: paused;
+    transform: perspective(900px) rotateY(0deg) rotateX(0deg) scale(1.06);
+    filter: drop-shadow(0 30px 40px rgba(245,215,122,0.7)) drop-shadow(0 0 24px rgba(245,215,122,0.5));
+    cursor: pointer;
+  }
+  @keyframes ams-glint {
+    0%   { transform: translateX(-120%) skewX(-20deg); opacity: 0; }
+    40%  { opacity: 0.9; }
+    100% { transform: translateX(220%) skewX(-20deg); opacity: 0; }
+  }
+  .award-stage { position: relative; isolation: isolate; }
+  .award-stage::before {
+    content: ""; position: absolute; inset: auto 10% -10% 10%; height: 30px;
+    background: radial-gradient(ellipse at center, rgba(245,215,122,0.55), transparent 70%);
+    filter: blur(8px); z-index: 0;
+  }
+  .award-stage::after {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 100%;
+    background: linear-gradient(115deg, transparent 35%, rgba(255,243,196,0.35) 50%, transparent 65%);
+    mix-blend-mode: screen;
+    animation: ams-glint 4.5s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
