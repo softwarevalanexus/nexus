@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { Component, Suspense, useEffect, useState, type ReactNode } from "react";
+import { AlertTriangle, Loader2, RotateCw } from "lucide-react";
 import { MarketplaceTopBar, type SectionId } from "./TopBar";
 import { DashboardSection } from "./sections/DashboardSection";
 import {
@@ -20,17 +21,117 @@ import {
 
 export function MarketplaceManagerModule() {
   const [section, setSection] = useState<SectionId>("dashboard");
+  const navigate = (id: SectionId) => setSection(id);
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <MarketplaceTopBar active={section} onChange={setSection} />
-      <main>{renderSection(section)}</main>
+      <main>
+        <SectionBoundary sectionKey={section}>
+          {renderSection(section, navigate)}
+        </SectionBoundary>
+      </main>
     </div>
   );
 }
 
-function renderSection(id: SectionId) {
+/* -------- loading + error boundary wrapper -------- */
+
+function SectionBoundary({
+  sectionKey,
+  children,
+}: {
+  sectionKey: string;
+  children: ReactNode;
+}) {
+  return (
+    <ErrorBoundary resetKey={sectionKey}>
+      <Suspense fallback={<SectionLoading />}>
+        <SectionFadeIn keyId={sectionKey}>{children}</SectionFadeIn>
+      </Suspense>
+    </ErrorBoundary>
+  );
+}
+
+function SectionFadeIn({ keyId, children }: { keyId: string; children: ReactNode }) {
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    setReady(false);
+    const t = requestAnimationFrame(() => setReady(true));
+    return () => cancelAnimationFrame(t);
+  }, [keyId]);
+  return (
+    <div
+      className="transition-opacity duration-200"
+      style={{ opacity: ready ? 1 : 0.35 }}
+    >
+      {children}
+    </div>
+  );
+}
+
+function SectionLoading() {
+  return (
+    <div className="flex min-h-[60vh] items-center justify-center px-6 py-24">
+      <div className="flex flex-col items-center gap-3 text-center">
+        <div className="grid h-14 w-14 place-items-center rounded-2xl border border-border bg-[color:var(--surface)] shadow-inner">
+          <Loader2 className="h-6 w-6 animate-spin text-[color:var(--primary)]" />
+        </div>
+        <div className="text-sm font-semibold text-foreground">Loading module…</div>
+        <div className="text-xs text-muted-foreground">
+          Preparing your marketplace workspace
+        </div>
+      </div>
+    </div>
+  );
+}
+
+class ErrorBoundary extends Component<
+  { children: ReactNode; resetKey: string },
+  { error: Error | null }
+> {
+  state = { error: null as Error | null };
+  static getDerivedStateFromError(error: Error) {
+    return { error };
+  }
+  componentDidUpdate(prev: { resetKey: string }) {
+    if (prev.resetKey !== this.props.resetKey && this.state.error) {
+      this.setState({ error: null });
+    }
+  }
+  reset = () => this.setState({ error: null });
+  render() {
+    if (this.state.error) {
+      return (
+        <div className="flex min-h-[60vh] items-center justify-center px-6 py-24">
+          <div className="w-full max-w-md rounded-2xl border border-destructive/40 bg-[color:var(--surface)] p-6 text-center shadow-lg">
+            <div className="mx-auto mb-3 grid h-12 w-12 place-items-center rounded-xl bg-destructive/15 text-destructive">
+              <AlertTriangle className="h-6 w-6" />
+            </div>
+            <h3 className="text-base font-semibold text-foreground">
+              This module hit an error
+            </h3>
+            <p className="mt-1 text-xs text-muted-foreground">
+              {this.state.error.message ||
+                "An unexpected error occurred while rendering this section."}
+            </p>
+            <button
+              onClick={this.reset}
+              className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-border bg-white/[0.04] px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-white/[0.08]"
+            >
+              <RotateCw className="h-3.5 w-3.5" /> Retry
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function renderSection(id: SectionId, nav: (n: SectionId) => void) {
   switch (id) {
-    case "dashboard": return <DashboardSection />;
+    case "dashboard": return <DashboardSection onNavigate={(n) => nav(n as SectionId)} />;
     case "topbar-manager": return <TopBarManagerSection />;
     case "homepage-rows": return <HomepageRowsSection />;
     case "card-manager": return <CardManagerSection />;
