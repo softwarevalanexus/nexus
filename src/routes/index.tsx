@@ -11,6 +11,7 @@ import {
 import { BlackBoxWorkspace } from "@/components/blackbox/BlackBoxWorkspace";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import AMSModule from "@/components/ams/AMSModule";
+import { MarketplaceManagerModule } from "@/components/marketplace-manager/MarketplaceManagerModule";
 
 export const Route = createFileRoute("/")({
   head: () => ({
