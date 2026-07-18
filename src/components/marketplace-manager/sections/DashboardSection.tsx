@@ -92,9 +92,9 @@ export function DashboardSection({ onNavigate }: { onNavigate?: (id: NavId) => v
               data — no mock numbers.
             </p>
             <div className="mt-7 flex flex-wrap gap-2.5">
-              <PillButton variant="primary">Open Homepage Manager</PillButton>
-              <PillButton variant="ghost">Launch Campaign</PillButton>
-              <PillButton variant="premium">Boost Revenue</PillButton>
+              <PillButton variant="primary" onClick={() => go("homepage-rows")}>Open Homepage Manager</PillButton>
+              <PillButton variant="ghost" onClick={() => go("marketing")}>Launch Campaign</PillButton>
+              <PillButton variant="premium" onClick={() => go("analytics")}>Boost Revenue</PillButton>
             </div>
           </div>
 
