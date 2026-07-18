@@ -32,7 +32,14 @@ const WALLS = [
   "SaaS Software",
 ];
 
-export function DashboardSection() {
+type NavId =
+  | "products" | "hero" | "walls" | "categories" | "offers" | "marketing"
+  | "analytics" | "approval" | "payments" | "ai" | "seo" | "homepage-rows"
+  | "layout-order" | "authors" | "vendors" | "orders" | "downloads"
+  | "reviews" | "notifications";
+
+export function DashboardSection({ onNavigate }: { onNavigate?: (id: NavId) => void } = {}) {
+  const go = (id: NavId) => onNavigate?.(id);
   return (
     <div className="px-4 py-8 md:px-8">
       <PageHeader
@@ -41,12 +48,12 @@ export function DashboardSection() {
         description="One control room for products, walls, banners, offers, partners and revenue across the Software Vala marketplace."
         actions={
           <>
-            <PillButton variant="ghost">
+            <PillButton variant="ghost" onClick={() => window.open("/marketplace", "_blank")}>
               <span className="inline-flex items-center gap-1.5">
                 <ArrowUpRight className="h-3.5 w-3.5" /> View Storefront
               </span>
             </PillButton>
-            <PillButton variant="primary">
+            <PillButton variant="primary" onClick={() => go("products")}>
               <span className="inline-flex items-center gap-1.5">
                 <Plus className="h-3.5 w-3.5" /> Add Product
               </span>
@@ -85,9 +92,9 @@ export function DashboardSection() {
               data — no mock numbers.
             </p>
             <div className="mt-7 flex flex-wrap gap-2.5">
-              <PillButton variant="primary">Open Homepage Manager</PillButton>
-              <PillButton variant="ghost">Launch Campaign</PillButton>
-              <PillButton variant="premium">Boost Revenue</PillButton>
+              <PillButton variant="primary" onClick={() => go("homepage-rows")}>Open Homepage Manager</PillButton>
+              <PillButton variant="ghost" onClick={() => go("marketing")}>Launch Campaign</PillButton>
+              <PillButton variant="premium" onClick={() => go("analytics")}>Boost Revenue</PillButton>
             </div>
           </div>
 
@@ -117,7 +124,7 @@ export function DashboardSection() {
       </div>
 
       {/* KPI Zone */}
-      <SectionRow title="Marketplace KPIs" cta="Open Analytics">
+      <SectionRow title="Marketplace KPIs" cta="Open Analytics" onCta={() => go("analytics")}>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
           <StatCard label="Total Products" value="—" delta="Live from catalog" icon={<Package className="h-4 w-4" />} />
           <StatCard label="Active" value="—" tone="success" icon={<CheckCircle2 className="h-4 w-4" />} />
@@ -135,24 +142,25 @@ export function DashboardSection() {
       </SectionRow>
 
       {/* Quick actions */}
-      <SectionRow title="Quick Actions" cta="Customize">
+      <SectionRow title="Quick Actions" cta="Customize" onCta={() => go("homepage-rows")}>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-          {[
-            { l: "Add Product", i: Plus },
-            { l: "Create Category", i: FolderTree },
-            { l: "Create Collection", i: LayoutGridIcon },
-            { l: "Launch Campaign", i: Megaphone },
-            { l: "Create Offer", i: Tag },
-            { l: "Create Coupon", i: Tag },
-            { l: "Feature Product", i: Sparkles },
-            { l: "Approve Listing", i: CheckCircle2 },
-            { l: "Send Announcement", i: Megaphone },
-            { l: "Homepage Manager", i: ArrowUpRight },
-          ].map((a) => {
+          {([
+            { l: "Add Product", i: Plus, id: "products" as NavId },
+            { l: "Create Category", i: FolderTree, id: "categories" as NavId },
+            { l: "Create Collection", i: LayoutGridIcon, id: "walls" as NavId },
+            { l: "Launch Campaign", i: Megaphone, id: "marketing" as NavId },
+            { l: "Create Offer", i: Tag, id: "offers" as NavId },
+            { l: "Create Coupon", i: Tag, id: "offers" as NavId },
+            { l: "Feature Product", i: Sparkles, id: "walls" as NavId },
+            { l: "Approve Listing", i: CheckCircle2, id: "approval" as NavId },
+            { l: "Send Announcement", i: Megaphone, id: "notifications" as NavId },
+            { l: "Homepage Manager", i: ArrowUpRight, id: "homepage-rows" as NavId },
+          ]).map((a) => {
             const Icon = a.i;
             return (
               <button
                 key={a.l}
+                onClick={() => go(a.id)}
                 className="group flex items-center gap-3 rounded-xl border border-border bg-surface/40 p-4 text-left transition-all hover:border-accent/40 hover:bg-surface-elevated"
               >
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary/30 to-accent/30 text-accent group-hover:from-primary group-hover:to-accent group-hover:text-primary-foreground">
@@ -166,10 +174,10 @@ export function DashboardSection() {
       </SectionRow>
 
       {/* Product Walls (Netflix horizontal) */}
-      <SectionRow title="Product Walls" count={WALLS.length} cta="Open Wall Manager">
+      <SectionRow title="Product Walls" count={WALLS.length} cta="Open Wall Manager" onCta={() => go("walls")}>
         <div className="space-y-6">
           {WALLS.slice(0, 4).map((w) => (
-            <ProductWallRow key={w} title={w} />
+            <ProductWallRow key={w} title={w} onEdit={() => go("walls")} />
           ))}
         </div>
       </SectionRow>
@@ -275,14 +283,14 @@ function LayoutGridIcon(props: { className?: string }) {
   return <FolderTree {...props} />;
 }
 
-function ProductWallRow({ title }: { title: string }) {
+function ProductWallRow({ title, onEdit }: { title: string; onEdit?: () => void }) {
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
         <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
           {title}
         </h4>
-        <button className="text-xs font-semibold text-accent hover:text-cyan-glow">
+        <button onClick={onEdit} className="text-xs font-semibold text-accent hover:text-cyan-glow">
           Edit wall →
         </button>
       </div>
