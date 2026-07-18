@@ -283,14 +283,14 @@ function LayoutGridIcon(props: { className?: string }) {
   return <FolderTree {...props} />;
 }
 
-function ProductWallRow({ title }: { title: string }) {
+function ProductWallRow({ title, onEdit }: { title: string; onEdit?: () => void }) {
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
         <h4 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
           {title}
         </h4>
-        <button className="text-xs font-semibold text-accent hover:text-cyan-glow">
+        <button onClick={onEdit} className="text-xs font-semibold text-accent hover:text-cyan-glow">
           Edit wall →
         </button>
       </div>
