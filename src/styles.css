@@ -36,6 +36,10 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-premium: var(--primary);
+  --color-cyan-glow: var(--accent);
+  --color-surface-elevated: var(--surface-3);
+  --font-display: "Cormorant Garamond", "Playfair Display", ui-serif, Georgia, serif;
 }
 
 :root {
