@@ -124,7 +124,7 @@ export function DashboardSection({ onNavigate }: { onNavigate?: (id: NavId) => v
       </div>
 
       {/* KPI Zone */}
-      <SectionRow title="Marketplace KPIs" cta="Open Analytics">
+      <SectionRow title="Marketplace KPIs" cta="Open Analytics" onCta={() => go("analytics")}>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6">
           <StatCard label="Total Products" value="—" delta="Live from catalog" icon={<Package className="h-4 w-4" />} />
           <StatCard label="Active" value="—" tone="success" icon={<CheckCircle2 className="h-4 w-4" />} />
@@ -142,24 +142,25 @@ export function DashboardSection({ onNavigate }: { onNavigate?: (id: NavId) => v
       </SectionRow>
 
       {/* Quick actions */}
-      <SectionRow title="Quick Actions" cta="Customize">
+      <SectionRow title="Quick Actions" cta="Customize" onCta={() => go("homepage-rows")}>
         <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-          {[
-            { l: "Add Product", i: Plus },
-            { l: "Create Category", i: FolderTree },
-            { l: "Create Collection", i: LayoutGridIcon },
-            { l: "Launch Campaign", i: Megaphone },
-            { l: "Create Offer", i: Tag },
-            { l: "Create Coupon", i: Tag },
-            { l: "Feature Product", i: Sparkles },
-            { l: "Approve Listing", i: CheckCircle2 },
-            { l: "Send Announcement", i: Megaphone },
-            { l: "Homepage Manager", i: ArrowUpRight },
-          ].map((a) => {
+          {([
+            { l: "Add Product", i: Plus, id: "products" as NavId },
+            { l: "Create Category", i: FolderTree, id: "categories" as NavId },
+            { l: "Create Collection", i: LayoutGridIcon, id: "walls" as NavId },
+            { l: "Launch Campaign", i: Megaphone, id: "marketing" as NavId },
+            { l: "Create Offer", i: Tag, id: "offers" as NavId },
+            { l: "Create Coupon", i: Tag, id: "offers" as NavId },
+            { l: "Feature Product", i: Sparkles, id: "walls" as NavId },
+            { l: "Approve Listing", i: CheckCircle2, id: "approval" as NavId },
+            { l: "Send Announcement", i: Megaphone, id: "notifications" as NavId },
+            { l: "Homepage Manager", i: ArrowUpRight, id: "homepage-rows" as NavId },
+          ]).map((a) => {
             const Icon = a.i;
             return (
               <button
                 key={a.l}
+                onClick={() => go(a.id)}
                 className="group flex items-center gap-3 rounded-xl border border-border bg-surface/40 p-4 text-left transition-all hover:border-accent/40 hover:bg-surface-elevated"
               >
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-primary/30 to-accent/30 text-accent group-hover:from-primary group-hover:to-accent group-hover:text-primary-foreground">
@@ -173,10 +174,10 @@ export function DashboardSection({ onNavigate }: { onNavigate?: (id: NavId) => v
       </SectionRow>
 
       {/* Product Walls (Netflix horizontal) */}
-      <SectionRow title="Product Walls" count={WALLS.length} cta="Open Wall Manager">
+      <SectionRow title="Product Walls" count={WALLS.length} cta="Open Wall Manager" onCta={() => go("walls")}>
         <div className="space-y-6">
           {WALLS.slice(0, 4).map((w) => (
-            <ProductWallRow key={w} title={w} />
+            <ProductWallRow key={w} title={w} onEdit={() => go("walls")} />
           ))}
         </div>
       </SectionRow>
