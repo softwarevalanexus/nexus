@@ -83,6 +83,7 @@ function CommandCenter() {
   const [activeManager, setActiveManager] = useState<string>("home");
   const isHome = activeManager === "home";
   const isAms = activeManager === "ams";
+  const isMarketplaceMgr = activeManager === "marketplace";
   const activeMeta = MANAGERS.find((m) => m.id === activeManager);
 
   return (
@@ -94,6 +95,10 @@ function CommandCenter() {
           {isAms ? (
             <main className="min-h-0 min-w-0 flex-1 overflow-y-auto scrollbar-thin">
               <AMSModule />
+            </main>
+          ) : isMarketplaceMgr ? (
+            <main className="min-h-0 min-w-0 flex-1 overflow-y-auto scrollbar-thin">
+              <MarketplaceManagerModule />
             </main>
           ) : (
             <>
