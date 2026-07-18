@@ -32,7 +32,14 @@ const WALLS = [
   "SaaS Software",
 ];
 
-export function DashboardSection() {
+type NavId =
+  | "products" | "hero" | "walls" | "categories" | "offers" | "marketing"
+  | "analytics" | "approval" | "payments" | "ai" | "seo" | "homepage-rows"
+  | "layout-order" | "authors" | "vendors" | "orders" | "downloads"
+  | "reviews" | "notifications";
+
+export function DashboardSection({ onNavigate }: { onNavigate?: (id: NavId) => void } = {}) {
+  const go = (id: NavId) => onNavigate?.(id);
   return (
     <div className="px-4 py-8 md:px-8">
       <PageHeader
@@ -41,12 +48,12 @@ export function DashboardSection() {
         description="One control room for products, walls, banners, offers, partners and revenue across the Software Vala marketplace."
         actions={
           <>
-            <PillButton variant="ghost">
+            <PillButton variant="ghost" onClick={() => window.open("/marketplace", "_blank")}>
               <span className="inline-flex items-center gap-1.5">
                 <ArrowUpRight className="h-3.5 w-3.5" /> View Storefront
               </span>
             </PillButton>
-            <PillButton variant="primary">
+            <PillButton variant="primary" onClick={() => go("products")}>
               <span className="inline-flex items-center gap-1.5">
                 <Plus className="h-3.5 w-3.5" /> Add Product
               </span>
