@@ -148,7 +148,9 @@ function CommandCenter() {
                     >
                       {activeManager === "blackbox"
                         ? <BlackBoxWorkspace />
-                        : <ManagerWorkspace manager={activeMeta!} />}
+                        : MANAGER_CONFIGS[activeManager]
+                          ? <GenericManagerModule managerId={activeManager} />
+                          : <ManagerWorkspace manager={activeMeta!} />}
                     </ModuleShell>
                   )}
                   <div className="h-4" />
