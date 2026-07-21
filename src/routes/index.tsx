@@ -6,12 +6,15 @@ import {
   Bell, MessageSquare, AtSign, AlertTriangle, CheckCircle2, Clock, Activity,
   Sparkles, Command, Star, History, Zap, Crown, Bot, ArrowUpRight, Pause, Play,
   CircleDot, Flame, BookLock, KeyRound, ChevronDown, Inbox, ArrowLeft, Filter,
-  Download, Plus, MoreHorizontal,
+  Download, Plus, MoreHorizontal, Target, ListChecks, Scale, Award, Server,
+  DollarSign, Search as SearchIcon,
 } from "lucide-react";
 import { BlackBoxWorkspace } from "@/components/blackbox/BlackBoxWorkspace";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import AMSModule from "@/components/ams/AMSModule";
 import { MarketplaceManagerModule } from "@/components/marketplace-manager/MarketplaceManagerModule";
+import { GenericManagerModule } from "@/components/managers/GenericManagerModule";
+import { MANAGER_CONFIGS } from "@/components/managers/managerConfigs";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,10 +33,23 @@ export const Route = createFileRoute("/")({
 const MANAGERS = [
   { id: "blackbox", label: "Black Box", icon: Package, grad: "var(--grad-violet)" },
   { id: "marketplace", label: "Marketplace Manager", icon: Store, grad: "var(--grad-cyan)" },
-  { id: "usercustomer", label: "User / Customer Management", icon: Users, grad: "var(--grad-teal)" },
-  { id: "reseller", label: "Reseller Management", icon: Network, grad: "var(--grad-indigo)" },
-  { id: "franchise", label: "Franchise Management", icon: Building2, grad: "var(--grad-amber)" },
-  { id: "influencer", label: "Influencer Management", icon: Star, grad: "var(--grad-magenta)" },
+  { id: "hr", label: "HR Manager", icon: Users, grad: "var(--grad-teal)" },
+  { id: "finance", label: "Finance Manager", icon: DollarSign, grad: "var(--grad-emerald)" },
+  { id: "marketing", label: "Marketing Manager", icon: Megaphone, grad: "var(--grad-indigo)" },
+  { id: "lead", label: "Lead Manager", icon: Target, grad: "var(--grad-cyan)" },
+  { id: "sales-support", label: "Sales Support Manager", icon: LifeBuoy, grad: "var(--grad-cyan)" },
+  { id: "legal", label: "Legal & Compliance", icon: Scale, grad: "var(--grad-rose)" },
+  { id: "performance", label: "Performance Manager", icon: Award, grad: "var(--grad-amber)" },
+  { id: "task", label: "Task Manager", icon: ListChecks, grad: "var(--grad-violet)" },
+  { id: "seo", label: "SEO Manager", icon: SearchIcon, grad: "var(--grad-teal)" },
+  { id: "influencer", label: "Influencer Manager", icon: Star, grad: "var(--grad-magenta)" },
+  { id: "reseller", label: "Reseller Manager", icon: Network, grad: "var(--grad-indigo)" },
+  { id: "franchise", label: "Franchise Manager", icon: Building2, grad: "var(--grad-amber)" },
+  { id: "product-demo", label: "Product Demo Manager", icon: Package, grad: "var(--grad-cyan)" },
+  { id: "api-ai", label: "API / AI Manager", icon: Bot, grad: "var(--grad-violet)" },
+  { id: "server", label: "Server Manager", icon: Server, grad: "var(--grad-indigo)" },
+  { id: "dev", label: "Dev Manager", icon: Code2, grad: "var(--grad-rose)" },
+  { id: "assist", label: "Assist Manager", icon: Bot, grad: "var(--grad-emerald)" },
   { id: "affiliate", label: "Affiliate Management", icon: Handshake, grad: "var(--grad-emerald)" },
   { id: "application", label: "Application Management", icon: Code2, grad: "var(--grad-rose)" },
   { id: "support", label: "Support Management", icon: LifeBuoy, grad: "var(--grad-cyan)" },
@@ -50,10 +66,24 @@ const MANAGER_STATS: Record<string, {
 }> = {
   blackbox:      { pending: 8,  active: 34, waiting: 2, critical: 0, approvals: 1, reviews: 3, bossActions: 1, health: "healthy" },
   marketplace:   { pending: 12, active: 48, waiting: 3, critical: 1, approvals: 4, reviews: 2, bossActions: 2, health: "healthy" },
+  hr:            { pending: 9,  active: 248,waiting: 5, critical: 0, approvals: 3, reviews: 4, bossActions: 1, health: "healthy" },
+  finance:       { pending: 12, active: 42, waiting: 4, critical: 1, approvals: 5, reviews: 3, bossActions: 2, health: "watch" },
+  marketing:     { pending: 8,  active: 24, waiting: 3, critical: 0, approvals: 2, reviews: 4, bossActions: 1, health: "healthy" },
+  lead:          { pending: 42, active: 486,waiting: 8, critical: 1, approvals: 2, reviews: 3, bossActions: 1, health: "watch" },
+  "sales-support":{ pending: 18, active: 82, waiting: 6, critical: 2, approvals: 1, reviews: 2, bossActions: 1, health: "watch" },
+  legal:         { pending: 4,  active: 18, waiting: 3, critical: 1, approvals: 2, reviews: 2, bossActions: 1, health: "healthy" },
+  performance:   { pending: 6,  active: 34, waiting: 4, critical: 0, approvals: 3, reviews: 5, bossActions: 1, health: "healthy" },
+  task:          { pending: 48, active: 184,waiting: 9, critical: 4, approvals: 2, reviews: 3, bossActions: 2, health: "watch" },
+  seo:           { pending: 5,  active: 42, waiting: 2, critical: 0, approvals: 1, reviews: 2, bossActions: 0, health: "healthy" },
   usercustomer:  { pending: 24, active: 92, waiting: 6, critical: 1, approvals: 3, reviews: 5, bossActions: 2, health: "watch" },
-  reseller:      { pending: 5,  active: 12, waiting: 2, critical: 0, approvals: 1, reviews: 1, bossActions: 0, health: "healthy" },
-  franchise:     { pending: 3,  active: 6,  waiting: 7, critical: 1, approvals: 4, reviews: 2, bossActions: 3, health: "watch" },
-  influencer:    { pending: 9,  active: 21, waiting: 4, critical: 0, approvals: 2, reviews: 1, bossActions: 1, health: "healthy" },
+  reseller:      { pending: 5,  active: 184,waiting: 2, critical: 0, approvals: 1, reviews: 1, bossActions: 0, health: "healthy" },
+  franchise:     { pending: 3,  active: 42, waiting: 7, critical: 1, approvals: 4, reviews: 2, bossActions: 3, health: "watch" },
+  influencer:    { pending: 9,  active: 184,waiting: 4, critical: 0, approvals: 2, reviews: 1, bossActions: 1, health: "healthy" },
+  "product-demo":{ pending: 6,  active: 184,waiting: 3, critical: 0, approvals: 2, reviews: 2, bossActions: 1, health: "healthy" },
+  "api-ai":      { pending: 4,  active: 24, waiting: 2, critical: 0, approvals: 1, reviews: 2, bossActions: 1, health: "healthy" },
+  server:        { pending: 2,  active: 42, waiting: 1, critical: 0, approvals: 0, reviews: 1, bossActions: 0, health: "healthy" },
+  dev:           { pending: 8,  active: 82, waiting: 4, critical: 1, approvals: 2, reviews: 3, bossActions: 1, health: "watch" },
+  assist:        { pending: 3,  active: 24, waiting: 1, critical: 0, approvals: 1, reviews: 1, bossActions: 0, health: "healthy" },
   affiliate:     { pending: 8,  active: 17, waiting: 4, critical: 0, approvals: 2, reviews: 0, bossActions: 1, health: "healthy" },
   application:   { pending: 15, active: 28, waiting: 8, critical: 2, approvals: 1, reviews: 4, bossActions: 3, health: "watch" },
   support:       { pending: 23, active: 11, waiting: 4, critical: 3, approvals: 0, reviews: 1, bossActions: 1, health: "critical" },
@@ -118,7 +148,9 @@ function CommandCenter() {
                     >
                       {activeManager === "blackbox"
                         ? <BlackBoxWorkspace />
-                        : <ManagerWorkspace manager={activeMeta!} />}
+                        : MANAGER_CONFIGS[activeManager]
+                          ? <GenericManagerModule managerId={activeManager} />
+                          : <ManagerWorkspace manager={activeMeta!} />}
                     </ModuleShell>
                   )}
                   <div className="h-4" />
