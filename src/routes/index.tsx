@@ -6,12 +6,15 @@ import {
   Bell, MessageSquare, AtSign, AlertTriangle, CheckCircle2, Clock, Activity,
   Sparkles, Command, Star, History, Zap, Crown, Bot, ArrowUpRight, Pause, Play,
   CircleDot, Flame, BookLock, KeyRound, ChevronDown, Inbox, ArrowLeft, Filter,
-  Download, Plus, MoreHorizontal,
+  Download, Plus, MoreHorizontal, Target, ListChecks, Scale, Award, Server,
+  DollarSign, Search as SearchIcon,
 } from "lucide-react";
 import { BlackBoxWorkspace } from "@/components/blackbox/BlackBoxWorkspace";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import AMSModule from "@/components/ams/AMSModule";
 import { MarketplaceManagerModule } from "@/components/marketplace-manager/MarketplaceManagerModule";
+import { GenericManagerModule } from "@/components/managers/GenericManagerModule";
+import { MANAGER_CONFIGS } from "@/components/managers/managerConfigs";
 
 export const Route = createFileRoute("/")({
   head: () => ({
