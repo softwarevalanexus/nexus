@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Home, Store, Package, Code2, Users, TrendingUp, LifeBuoy, Wallet, ShieldCheck,
@@ -16,7 +16,13 @@ import { MarketplaceManagerModule } from "@/components/marketplace-manager/Marke
 import { GenericManagerModule } from "@/components/managers/GenericManagerModule";
 import { MANAGER_CONFIGS } from "@/components/managers/managerConfigs";
 
+type CommandSearch = { m?: string; s?: string };
+
 export const Route = createFileRoute("/")({
+  validateSearch: (search: Record<string, unknown>): CommandSearch => ({
+    m: typeof search.m === "string" && search.m.length > 0 ? search.m : undefined,
+    s: typeof search.s === "string" && search.s.length > 0 ? search.s : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Founder Command Center" },
@@ -27,6 +33,7 @@ export const Route = createFileRoute("/")({
   }),
   component: CommandCenter,
 });
+
 
 /* ------------------------------- Data ----------------------------------- */
 
@@ -110,16 +117,29 @@ const BANNER_SLIDES = [
 
 function CommandCenter() {
   const [collapsed, setCollapsed] = useState(false);
-  const [activeManager, setActiveManager] = useState<string>("home");
+  const navigate = useNavigate({ from: "/" });
+  const { m, s } = Route.useSearch();
+
+  const activeManager = m && MANAGERS.some((x) => x.id === m) ? m : "home";
+  const cfg = MANAGER_CONFIGS[activeManager];
+  const activeSection =
+    cfg && s && cfg.sections.some((sec) => sec.id === s) ? s : cfg?.sections[0].id;
+
+  const openManager = (id: string) =>
+    navigate({ search: id === "home" ? {} : { m: id }, resetScroll: true });
+
+  const openSection = (sectionId: string) =>
+    navigate({ search: { m: activeManager, s: sectionId }, replace: true, resetScroll: false });
+
   const isHome = activeManager === "home";
   const isAms = activeManager === "ams";
   const isMarketplaceMgr = activeManager === "marketplace";
-  const activeMeta = MANAGERS.find((m) => m.id === activeManager);
+  const activeMeta = MANAGERS.find((x) => x.id === activeManager);
 
   return (
     <div className="h-screen w-full overflow-hidden text-foreground">
       <div className="flex h-full w-full">
-        <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} active={activeManager} onSelect={setActiveManager} />
+        <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} active={activeManager} onSelect={openManager} />
 
         <div className="flex h-full min-w-0 flex-1 flex-col">
           {isAms ? (
@@ -138,21 +158,28 @@ function CommandCenter() {
                   {isHome ? (
                     <>
                       <HeroBanner />
-                      <ManagerGrid onOpen={setActiveManager} />
+                      <ManagerGrid onOpen={openManager} />
                       <HomeSections />
                     </>
                   ) : (
                     <ModuleShell
                       manager={activeMeta}
-                      onBack={() => setActiveManager("home")}
+                      onBack={() => openManager("home")}
                     >
                       {activeManager === "blackbox"
                         ? <BlackBoxWorkspace />
-                        : MANAGER_CONFIGS[activeManager]
-                          ? <GenericManagerModule managerId={activeManager} />
+                        : cfg
+                          ? (
+                            <GenericManagerModule
+                              managerId={activeManager}
+                              sectionId={activeSection}
+                              onSectionChange={openSection}
+                            />
+                          )
                           : <ManagerWorkspace manager={activeMeta!} />}
                     </ModuleShell>
                   )}
+
                   <div className="h-4" />
                 </main>
                 {isHome && <ContextPanel />}
@@ -315,7 +342,7 @@ function Sidebar({
         )}
       </div>
 
-      <SidebarItem icon={Home} label="Home" collapsed={collapsed} active={active === "home"} onClick={() => onSelect("home")} />
+      <SidebarItem icon={Home} label="Home" testId="sidebar-item-home" collapsed={collapsed} active={active === "home"} onClick={() => onSelect("home")} />
 
       <div className={`mt-2 px-4 ${collapsed ? "sr-only" : ""}`}>
         <div className="text-[10px] font-medium uppercase tracking-[0.14em] text-muted-foreground">Managers</div>
@@ -334,6 +361,7 @@ function Sidebar({
               active={active === m.id}
               badge={badge > 0 ? badge : undefined}
               dot={s.health}
+              testId={`sidebar-item-${m.id}`}
               onClick={() => onSelect(m.id)}
             />
           );
@@ -351,20 +379,23 @@ function Sidebar({
 }
 
 function SidebarItem({
-  icon: Icon, label, collapsed, active, badge, dot, onClick,
+  icon: Icon, label, collapsed, active, badge, dot, onClick, testId,
 }: {
   icon: React.ComponentType<{ className?: string }>;
   label: string; collapsed: boolean; active?: boolean; badge?: number;
-  dot?: "healthy" | "watch" | "critical"; onClick?: () => void;
+  dot?: "healthy" | "watch" | "critical"; onClick?: () => void; testId?: string;
 }) {
   const dotColor = dot === "critical" ? "bg-destructive" : dot === "watch" ? "bg-[color:var(--warning)]" : dot === "healthy" ? "bg-[color:var(--success)]" : "";
   return (
     <button
       onClick={onClick}
+      data-testid={testId}
+      aria-label={label}
       className={`group relative mx-2 my-0.5 flex w-[calc(100%-1rem)] items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors
         ${active ? "bg-[color:var(--surface-3)] text-foreground ring-1 ring-border" : "text-muted-foreground hover:bg-[color:var(--surface-2)] hover:text-foreground"}`}
       title={collapsed ? label : undefined}
     >
+
       <Icon className="h-[18px] w-[18px] shrink-0" />
       {!collapsed && <span className="flex-1 truncate text-left">{label}</span>}
       {!collapsed && dot && <span className={`h-1.5 w-1.5 rounded-full ${dotColor}`} />}
