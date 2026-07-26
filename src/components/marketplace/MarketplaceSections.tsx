@@ -90,7 +90,7 @@ export const AIZone = () => (
       {AI_TOOLS.map((t) => (
         <Link
           key={t.name}
-          to="/marketplace/ai"
+          to="/marketplace/$page" params={{ page: "ai" }}
           className={`group relative overflow-hidden rounded-2xl border ${t.ring} bg-gradient-to-br from-white/[0.04] to-white/[0.01] p-5 transition-all hover:-translate-y-1 hover:shadow-[0_24px_60px_-20px_rgba(217,70,239,0.45)]`}
         >
           <div className={`mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 ${t.accent}`}>
@@ -249,7 +249,7 @@ export const Academy = () => {
         {tracks.map((t) => (
           <Link
             key={t.title}
-            to="/marketplace/academy"
+            to="/marketplace/$page" params={{ page: "academy" }}
             className="group rounded-2xl border border-white/[0.07] bg-gradient-to-br from-cyan-500/[0.06] to-fuchsia-500/[0.04] p-5 transition-all hover:border-cyan-400/40"
           >
             <t.icon className="h-7 w-7 text-cyan-300" />
@@ -351,10 +351,10 @@ export const EnterpriseCTA = () => (
             Dedicated success manager, custom SLAs, SSO, regional data residency, white-glove migration & 24/7 support — built for teams of 100 to 10,000+.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link to="/marketplace/enterprise" className="rounded-xl bg-white px-6 py-3 text-sm font-bold text-background shadow-2xl transition-transform hover:scale-[1.03]">
+            <Link to="/marketplace/$page" params={{ page: "enterprise" }} className="rounded-xl bg-white px-6 py-3 text-sm font-bold text-background shadow-2xl transition-transform hover:scale-[1.03]">
               Talk to Enterprise
             </Link>
-            <Link to="/marketplace/trust" className="rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-foreground backdrop-blur-md hover:bg-white/10">
+            <Link to="/marketplace/$page" params={{ page: "trust" }} className="rounded-xl border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-foreground backdrop-blur-md hover:bg-white/10">
               Trust & Security
             </Link>
           </div>
