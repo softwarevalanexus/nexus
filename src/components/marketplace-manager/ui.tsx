@@ -47,6 +47,7 @@ export function SubNav({
           <button
             key={it}
             onClick={() => onChange(it)}
+            data-testid={`subnav-${it.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
             className={`relative whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-colors ${
               isActive
                 ? "text-foreground"
@@ -67,14 +68,16 @@ export function SubNav({
 export function Card({
   children,
   className = "",
+  ...rest
 }: {
   children: ReactNode;
   className?: string;
-}) {
+} & React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={`glass rounded-2xl p-5 ${className}`}>{children}</div>
+    <div className={`glass rounded-2xl p-5 ${className}`} {...rest}>{children}</div>
   );
 }
+
 
 export function StatCard({
   label,
