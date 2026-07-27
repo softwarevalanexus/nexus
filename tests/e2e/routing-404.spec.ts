@@ -74,7 +74,17 @@ test.describe("404 handling", () => {
       await expect(page.getByText(/404|not found/i).first()).toBeVisible();
     }
   });
+
+  test("unknown product id renders a page instead of crashing", async ({ page }) => {
+    const response = await page.goto("/marketplace/product/does-not-exist-xyz", {
+      waitUntil: "domcontentloaded",
+    });
+    expect(response?.status()).toBeLessThan(500);
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await expect(page.locator("h1").first()).toBeVisible();
+  });
 });
+
 
 test.describe("refresh and share of valid states", () => {
   test("manager state survives refresh and a fresh share-link visit", async ({ page, context }) => {
