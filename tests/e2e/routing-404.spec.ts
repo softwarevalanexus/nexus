@@ -54,7 +54,7 @@ test.describe("invalid URL params", () => {
 });
 
 test.describe("404 handling", () => {
-  const badPaths = ["/definitely-not-a-route", "/marketplace/product/does-not-exist-xyz", "/a/b/c"];
+  const badPaths = ["/definitely-not-a-route", "/a/b/c", "/marketplace/nope/deep"];
 
   test("unmatched routes render the 404 page with a working home link", async ({ page }) => {
     await page.goto("/definitely-not-a-route", { waitUntil: "domcontentloaded" });
