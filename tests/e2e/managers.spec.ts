@@ -32,12 +32,17 @@ test.describe("deep links", () => {
 
     test(`${managerId}: opens from the sidebar and syncs the URL`, async ({ page }) => {
       await page.goto("/", { waitUntil: "load" });
-      // Wait for hydration before interacting with the client router.
-      await page.getByTestId("sidebar-item-home").click();
-      await page.getByTestId(`sidebar-item-${managerId}`).click();
+      // The SSR markup is interactive only after hydration attaches handlers,
+      // so retry the click until the client router actually navigates.
+      const item = page.getByTestId(`sidebar-item-${managerId}`);
+      await expect(item).toBeVisible();
+      await expect(async () => {
+        await item.click();
+        await expect(page).toHaveURL(new RegExp(`[?&]m=${managerId}(&|$)`), { timeout: 1000 });
+      }).toPass({ timeout: 15_000 });
 
       await expect(page.getByTestId(`manager-module-${managerId}`)).toBeVisible();
-      await expect(page).toHaveURL(new RegExp(`[?&]m=${managerId}(&|$)`));
+
 
       // Sub-navigation writes the section into the URL.
       const second = cfg.sections[1] ?? cfg.sections[0];
