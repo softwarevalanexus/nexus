@@ -549,8 +549,9 @@ export { ToolkitSection } from "./ToolkitSection";
 export { TopBarManagerSection } from "./TopBarManagerSection";
 export { HomepageRowsSection } from "./HomepageRowsSection";
 export { CardManagerSection } from "./CardManagerSection";
+export { DemoSection } from "./DemoSystemSection";
 export {
-  ProductsSection, ProductContentSection, ProductMediaSection, DemoSection,
+  ProductsSection, ProductContentSection, ProductMediaSection,
   BlogSection,
   CustomersSection, AuthorsSection, VendorsSection,
   ResellersSection, AffiliateSection, InfluencerSection, QrSection,
