@@ -103,7 +103,8 @@ test.describe("Marketplace Manager accessibility — demo & SEO controls", () =>
 
   test("QR dialog is announced as a modal dialog with an accessible name", async ({ page }) => {
     await openDemo(page);
-    await page.getByTestId("demo-qr-admin").click();
+    await page.getByTestId("demo-qr-admin").focus();
+    await page.keyboard.press("Enter");
     const dialog = page.getByRole("dialog", { name: /QR code for Admin Demo/i });
     await expect(dialog).toBeVisible();
     await page.getByRole("button", { name: "Close QR" }).focus();

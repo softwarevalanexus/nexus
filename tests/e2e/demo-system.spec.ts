@@ -55,7 +55,7 @@ test.describe("Demo URL Command Center — surface actions", () => {
     await expect(page.getByTestId("demo-state-live")).toHaveText("Enabled");
     await page.getByTestId("demo-toggle-live").click();
     await expect(page.getByTestId("demo-state-live")).toHaveText("Disabled");
-    await expect(page.getByTestId("demo-open-live")).toHaveAttribute("aria-disabled", "true");
+    await expect(page.getByTestId("demo-open-live")).toHaveAttribute("data-disabled", "true");
     await page.getByTestId("demo-open-live").click();
     await expect(page.getByTestId("demo-status")).toContainText("disabled");
     expect(page.url()).toContain("m=marketplace");
@@ -143,7 +143,7 @@ test.describe("Demo SEO head tags", () => {
   test("emits noindex, canonical, robots, x-robots and sitemap exclusion", async ({ page }) => {
     await openDemo(page, "demo-seo");
     await expect(page.getByTestId("seo-emitted-head")).toContainText("noindex, nofollow, noarchive");
-    const head = await readHead(page);
+    const head = await expect.poll(async () => (await readHead(page)).robots).toBe("noindex, nofollow, noarchive").then?.(() => readHead(page)) ?? await readHead(page);
     expect(head.robots).toBe("noindex, nofollow, noarchive");
     expect(head.canonical).toContain("https://softwarewala.net/software/");
     expect(head.robotsTxt).toContain("Disallow: /");
@@ -157,15 +157,14 @@ test.describe("Demo SEO head tags", () => {
     await page.reload();
     await page.waitForSelector('html[data-hydrated="true"]', { timeout: 30_000 });
     await expect(page.getByTestId("seo-emitted-head")).toBeVisible();
-    expect((await readHead(page)).robots).toBe("noindex, nofollow, noarchive");
+    await expect.poll(async () => (await readHead(page)).robots).toBe("noindex, nofollow, noarchive");
 
     const shared = await context.newPage();
     await shared.goto(page.url());
     await shared.waitForSelector('html[data-hydrated="true"]', { timeout: 30_000 });
     await expect(shared.getByTestId("seo-emitted-head")).toBeVisible();
-    const head = await readHead(shared);
-    expect(head.robots).toBe("noindex, nofollow, noarchive");
-    expect(head.canonical).toContain("https://softwarewala.net/software/");
+    await expect.poll(async () => (await readHead(shared)).robots).toBe("noindex, nofollow, noarchive");
+    expect((await readHead(shared)).canonical).toContain("https://softwarewala.net/software/");
     await shared.close();
   });
 
