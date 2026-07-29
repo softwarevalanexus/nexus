@@ -380,21 +380,32 @@ export function DemoSection() {
                       {st.resets > 0 ? `Last reset ${st.resetAt} · ${st.resets} total` : "No reset in this session"}
                     </div>
                     <div className="mt-3 flex flex-wrap items-center gap-1.5">
-                      <a
-                        href={url}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        aria-disabled={!st.enabled}
-                        data-testid={`demo-open-${s.key}`}
-                        onClick={(e) => {
-                          if (!st.enabled) { e.preventDefault(); announce(`${s.label} is disabled — enable it before opening`); return; }
-                          announce(`Opened ${s.label} in a new tab`);
-                        }}
-                        className={`inline-flex min-h-8 items-center gap-1.5 rounded-md border border-accent/40 bg-background/50 px-2 py-1 text-[11px] font-semibold text-accent transition-all hover:bg-accent/10 ${FOCUS} ${st.enabled ? "" : "pointer-events-auto opacity-40"}`}
-                      >
-                        <ExternalLink className="h-3.5 w-3.5" />
-                        <span className="hidden md:inline">Open</span>
-                      </a>
+                      {st.enabled ? (
+                        <a
+                          href={url}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          data-testid={`demo-open-${s.key}`}
+                          onClick={() => announce(`Opened ${s.label} in a new tab`)}
+                          className={`inline-flex min-h-8 items-center gap-1.5 rounded-md border border-accent/40 bg-background/50 px-2 py-1 text-[11px] font-semibold text-accent transition-all hover:bg-accent/10 ${FOCUS}`}
+                        >
+                          <ExternalLink className="h-3.5 w-3.5" />
+                          <span className="hidden md:inline">Open</span>
+                        </a>
+                      ) : (
+                        <button
+                          type="button"
+                          aria-label={`Open ${s.label} (disabled)`}
+                          data-testid={`demo-open-${s.key}`}
+                          data-disabled="true"
+                          onClick={() => announce(`${s.label} is disabled — enable it before opening`)}
+                          className={`inline-flex min-h-8 items-center gap-1.5 rounded-md border border-border bg-background/50 px-2 py-1 text-[11px] font-semibold text-muted-foreground opacity-60 ${FOCUS}`}
+                        >
+                          <ExternalLink className="h-3.5 w-3.5" />
+                          <span className="hidden md:inline">Open</span>
+                        </button>
+                      )}
+
                       <IconBtn icon={Copy} label="Copy" testId={`demo-copy-${s.key}`} onClick={() => copy(s)} />
                       <IconBtn icon={QrCode} label="QR" testId={`demo-qr-${s.key}`} onClick={() => { setQr(s); announce(`QR code generated for ${s.label}`); }} />
                       <IconBtn icon={RotateCcw} label="Reset" testId={`demo-reset-btn-${s.key}`} onClick={() => resetSurface(s)} />
