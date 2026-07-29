@@ -34,21 +34,40 @@ export function SubNav({
   items,
   active,
   onChange,
+  label = "Section tabs",
 }: {
   items: string[];
   active: string;
   onChange: (v: string) => void;
+  label?: string;
 }) {
+  const move = (dir: 1 | -1) => {
+    const i = items.indexOf(active);
+    const next = items[(i + dir + items.length) % items.length];
+    onChange(next);
+  };
   return (
-    <div className="scroll-row mb-6 flex gap-1 overflow-x-auto border-b border-border pb-px">
+    <div
+      role="tablist"
+      aria-label={label}
+      className="scroll-row mb-6 flex gap-1 overflow-x-auto border-b border-border pb-px"
+      onKeyDown={(e) => {
+        if (e.key === "ArrowRight") { e.preventDefault(); move(1); }
+        if (e.key === "ArrowLeft") { e.preventDefault(); move(-1); }
+      }}
+    >
       {items.map((it) => {
         const isActive = it === active;
         return (
           <button
             key={it}
+            type="button"
+            role="tab"
+            aria-selected={isActive}
+            tabIndex={isActive ? 0 : -1}
             onClick={() => onChange(it)}
             data-testid={`subnav-${it.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
-            className={`relative whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-colors ${
+            className={`relative whitespace-nowrap rounded-t-md px-4 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
               isActive
                 ? "text-foreground"
                 : "text-muted-foreground hover:text-foreground"
@@ -64,6 +83,7 @@ export function SubNav({
     </div>
   );
 }
+
 
 export function Card({
   children,

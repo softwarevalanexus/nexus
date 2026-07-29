@@ -16,13 +16,15 @@ import { MarketplaceManagerModule } from "@/components/marketplace-manager/Marke
 import { GenericManagerModule } from "@/components/managers/GenericManagerModule";
 import { MANAGER_CONFIGS } from "@/components/managers/managerConfigs";
 
-type CommandSearch = { m?: string; s?: string };
+type CommandSearch = { m?: string; s?: string; t?: string };
 
 export const Route = createFileRoute("/")({
   validateSearch: (search: Record<string, unknown>): CommandSearch => ({
     m: typeof search.m === "string" && search.m.length > 0 ? search.m : undefined,
     s: typeof search.s === "string" && search.s.length > 0 ? search.s : undefined,
+    t: typeof search.t === "string" && search.t.length > 0 ? search.t : undefined,
   }),
+
   head: () => ({
     meta: [
       { title: "Founder Command Center" },
@@ -148,8 +150,14 @@ function CommandCenter() {
             </main>
           ) : isMarketplaceMgr ? (
             <main className="min-h-0 min-w-0 flex-1 overflow-y-auto scrollbar-thin">
-              <MarketplaceManagerModule />
+              <MarketplaceManagerModule
+                section={s}
+                onSectionChange={(id) =>
+                  navigate({ search: { m: "marketplace", s: id }, replace: true, resetScroll: false })
+                }
+              />
             </main>
+
           ) : (
             <>
               <TopBar />
