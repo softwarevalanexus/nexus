@@ -8,6 +8,7 @@ const SURFACES = [
 async function openDemo(page: Page, tab?: string) {
   const url = `/?m=marketplace&s=demo${tab ? `&t=${tab}` : ""}`;
   await page.goto(url);
+  await page.waitForSelector('html[data-hydrated="true"]', { timeout: 30_000 });
   await expect(page.getByRole("heading", { name: "Demo URL Command Center" })).toBeVisible();
 }
 
@@ -154,11 +155,13 @@ test.describe("Demo SEO head tags", () => {
   test("head tags persist after refresh and when the URL is shared", async ({ page, context }) => {
     await openDemo(page, "demo-seo");
     await page.reload();
+    await page.waitForSelector('html[data-hydrated="true"]', { timeout: 30_000 });
     await expect(page.getByTestId("seo-emitted-head")).toBeVisible();
     expect((await readHead(page)).robots).toBe("noindex, nofollow, noarchive");
 
     const shared = await context.newPage();
     await shared.goto(page.url());
+    await shared.waitForSelector('html[data-hydrated="true"]', { timeout: 30_000 });
     await expect(shared.getByTestId("seo-emitted-head")).toBeVisible();
     const head = await readHead(shared);
     expect(head.robots).toBe("noindex, nofollow, noarchive");
@@ -193,6 +196,8 @@ test.describe("Deep links", () => {
     test(`tab "${tab}" survives refresh`, async ({ page }) => {
       await openDemo(page, tab);
       await page.reload();
+      await page.waitForSelector('html[data-hydrated="true"]', { timeout: 30_000 });
+    await page.waitForSelector('html[data-hydrated="true"]', { timeout: 30_000 });
       await expect(page.getByTestId(`subnav-${tab}`)).toHaveAttribute("aria-selected", "true");
     });
   }

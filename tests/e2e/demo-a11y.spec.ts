@@ -7,6 +7,7 @@ const TABS = [
 
 async function openDemo(page: Page, tab?: string) {
   await page.goto(`/?m=marketplace&s=demo${tab ? `&t=${tab}` : ""}`);
+  await page.waitForSelector('html[data-hydrated="true"]', { timeout: 30_000 });
   await expect(page.getByRole("heading", { name: "Demo URL Command Center" })).toBeVisible();
 }
 
