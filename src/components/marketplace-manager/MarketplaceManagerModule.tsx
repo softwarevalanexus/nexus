@@ -19,13 +19,23 @@ import {
   AiContentSection, SecurityScanSection, QualityCheckSection, ProductAnalyticsSection, AuditLogSection,
 } from "./sections";
 
-export function MarketplaceManagerModule() {
-  const [section, setSection] = useState<SectionId>("dashboard");
-  const navigate = (id: SectionId) => setSection(id);
+export function MarketplaceManagerModule({
+  section: sectionProp,
+  onSectionChange,
+}: {
+  section?: string;
+  onSectionChange?: (id: string) => void;
+} = {}) {
+  const [localSection, setLocalSection] = useState<SectionId>("dashboard");
+  const section = (sectionProp as SectionId | undefined) ?? localSection;
+  const navigate = (id: SectionId) => {
+    setLocalSection(id);
+    onSectionChange?.(id);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <MarketplaceTopBar active={section} onChange={setSection} />
+      <MarketplaceTopBar active={section} onChange={navigate} />
       <main>
         <SectionBoundary sectionKey={section}>
           {renderSection(section, navigate)}
@@ -34,6 +44,7 @@ export function MarketplaceManagerModule() {
     </div>
   );
 }
+
 
 /* -------- loading + error boundary wrapper -------- */
 

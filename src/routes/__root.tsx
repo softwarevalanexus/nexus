@@ -119,6 +119,11 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  // Hydration marker — lets e2e tests wait until handlers are attached.
+  useEffect(() => {
+    document.documentElement.setAttribute("data-hydrated", "true");
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
@@ -126,3 +131,4 @@ function RootComponent() {
     </QueryClientProvider>
   );
 }
+
