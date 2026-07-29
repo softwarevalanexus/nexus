@@ -143,7 +143,8 @@ test.describe("Demo SEO head tags", () => {
   test("emits noindex, canonical, robots, x-robots and sitemap exclusion", async ({ page }) => {
     await openDemo(page, "demo-seo");
     await expect(page.getByTestId("seo-emitted-head")).toContainText("noindex, nofollow, noarchive");
-    const head = await expect.poll(async () => (await readHead(page)).robots).toBe("noindex, nofollow, noarchive").then?.(() => readHead(page)) ?? await readHead(page);
+    await expect.poll(async () => (await readHead(page)).robots).toBe("noindex, nofollow, noarchive");
+    const head = await readHead(page);
     expect(head.robots).toBe("noindex, nofollow, noarchive");
     expect(head.canonical).toContain("https://softwarewala.net/software/");
     expect(head.robotsTxt).toContain("Disallow: /");
