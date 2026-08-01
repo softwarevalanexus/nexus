@@ -2508,7 +2508,10 @@ const ASSIST: ManagerConfig = {
 
 /* ==================== EXPORT ==================== */
 
+import { EXTRA_MANAGER_CONFIGS, EXTRA_MANAGER_ORDER } from "./managerConfigs.extra";
+
 export const MANAGER_CONFIGS: Record<string, ManagerConfig> = {
+  ...EXTRA_MANAGER_CONFIGS,
   hr: HR,
   finance: FINANCE,
   marketing: MARKETING,
@@ -2532,4 +2535,5 @@ export const MANAGER_ORDER: string[] = [
   "hr", "finance", "marketing", "lead", "sales-support", "legal", "performance",
   "task", "seo", "influencer", "reseller", "franchise", "product-demo",
   "api-ai", "server", "dev", "assist",
+  ...EXTRA_MANAGER_ORDER,
 ];
