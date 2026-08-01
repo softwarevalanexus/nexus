@@ -7,7 +7,7 @@ import {
   Sparkles, Command, Star, History, Zap, Crown, Bot, ArrowUpRight, Pause, Play,
   CircleDot, Flame, BookLock, KeyRound, ChevronDown, Inbox, ArrowLeft, Filter,
   Download, Plus, MoreHorizontal, Target, ListChecks, Scale, Award, Server,
-  DollarSign, Search as SearchIcon,
+  DollarSign, Gauge, Search as SearchIcon,
 } from "lucide-react";
 import { BlackBoxWorkspace } from "@/components/blackbox/BlackBoxWorkspace";
 import { BrandLogo } from "@/components/brand/BrandLogo";
