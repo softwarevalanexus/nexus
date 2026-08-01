@@ -7,7 +7,7 @@ import {
   Sparkles, Command, Star, History, Zap, Crown, Bot, ArrowUpRight, Pause, Play,
   CircleDot, Flame, BookLock, KeyRound, ChevronDown, Inbox, ArrowLeft, Filter,
   Download, Plus, MoreHorizontal, Target, ListChecks, Scale, Award, Server,
-  DollarSign, Search as SearchIcon,
+  DollarSign, Gauge, Search as SearchIcon,
 } from "lucide-react";
 import { BlackBoxWorkspace } from "@/components/blackbox/BlackBoxWorkspace";
 import { BrandLogo } from "@/components/brand/BrandLogo";
@@ -64,6 +64,20 @@ const MANAGERS = [
   { id: "support", label: "Support Management", icon: LifeBuoy, grad: "var(--grad-cyan)" },
   { id: "ams", label: "AMS", icon: TrendingUp, grad: "var(--grad-violet)" },
   { id: "content", label: "Content Management", icon: Megaphone, grad: "var(--grad-indigo)" },
+  { id: "control-panel", label: "Control Panel", icon: Gauge, grad: "var(--grad-indigo)" },
+  { id: "super-admin", label: "Super Admin", icon: ShieldCheck, grad: "var(--grad-rose)" },
+  { id: "boss-dashboard", label: "Boss Dashboard", icon: Crown, grad: "var(--grad-amber)" },
+  { id: "ceo-dashboard", label: "CEO Dashboard", icon: TrendingUp, grad: "var(--grad-emerald)" },
+  { id: "vala-ai", label: "Vala AI", icon: Bot, grad: "var(--grad-violet)" },
+  { id: "promise-tracker", label: "Promise Tracker", icon: Handshake, grad: "var(--grad-teal)" },
+  { id: "product", label: "Product Manager", icon: Package, grad: "var(--grad-cyan)" },
+  { id: "demo", label: "Demo Manager", icon: Package, grad: "var(--grad-magenta)" },
+  { id: "customer-support", label: "Customer Support", icon: LifeBuoy, grad: "var(--grad-cyan)" },
+  { id: "influencer-dashboard", label: "Influencer Dashboard", icon: Star, grad: "var(--grad-magenta)" },
+  { id: "continent-admin", label: "Continent Admin", icon: Network, grad: "var(--grad-indigo)" },
+  { id: "country-admin", label: "Country Admin", icon: Building2, grad: "var(--grad-teal)" },
+  { id: "franchise-owner", label: "Franchise Owner", icon: Building2, grad: "var(--grad-amber)" },
+  { id: "developer-dashboard", label: "Developer Dashboard", icon: Code2, grad: "var(--grad-rose)" },
 ] as const;
 
 type Manager = (typeof MANAGERS)[number];
@@ -98,6 +112,20 @@ const MANAGER_STATS: Record<string, {
   support:       { pending: 23, active: 11, waiting: 4, critical: 3, approvals: 0, reviews: 1, bossActions: 1, health: "critical" },
   ams:           { pending: 6,  active: 14, waiting: 3, critical: 0, approvals: 2, reviews: 2, bossActions: 1, health: "healthy" },
   content:       { pending: 11, active: 19, waiting: 3, critical: 0, approvals: 2, reviews: 4, bossActions: 1, health: "healthy" },
+  "control-panel": { pending: 4, active: 22, waiting: 2, critical: 0, approvals: 1, reviews: 1, bossActions: 1, health: "healthy" },
+  "super-admin": { pending: 6, active: 412, waiting: 3, critical: 1, approvals: 2, reviews: 2, bossActions: 2, health: "healthy" },
+  "boss-dashboard": { pending: 12, active: 18, waiting: 5, critical: 2, approvals: 6, reviews: 3, bossActions: 6, health: "watch" },
+  "ceo-dashboard": { pending: 5, active: 28, waiting: 3, critical: 1, approvals: 3, reviews: 4, bossActions: 2, health: "healthy" },
+  "vala-ai": { pending: 7, active: 14, waiting: 2, critical: 0, approvals: 2, reviews: 3, bossActions: 1, health: "healthy" },
+  "promise-tracker": { pending: 14, active: 48, waiting: 6, critical: 2, approvals: 3, reviews: 2, bossActions: 2, health: "watch" },
+  "product": { pending: 9, active: 28, waiting: 4, critical: 1, approvals: 3, reviews: 3, bossActions: 1, health: "healthy" },
+  "demo": { pending: 6, active: 18, waiting: 3, critical: 0, approvals: 1, reviews: 2, bossActions: 1, health: "healthy" },
+  "customer-support": { pending: 23, active: 128, waiting: 6, critical: 3, approvals: 1, reviews: 2, bossActions: 1, health: "critical" },
+  "influencer-dashboard": { pending: 4, active: 6, waiting: 2, critical: 0, approvals: 1, reviews: 1, bossActions: 0, health: "healthy" },
+  "continent-admin": { pending: 5, active: 14, waiting: 3, critical: 1, approvals: 2, reviews: 2, bossActions: 1, health: "watch" },
+  "country-admin": { pending: 7, active: 84, waiting: 4, critical: 0, approvals: 2, reviews: 2, bossActions: 1, health: "healthy" },
+  "franchise-owner": { pending: 4, active: 24, waiting: 2, critical: 0, approvals: 1, reviews: 1, bossActions: 0, health: "healthy" },
+  "developer-dashboard": { pending: 6, active: 42, waiting: 3, critical: 0, approvals: 2, reviews: 3, bossActions: 1, health: "healthy" },
 };
 
 const BANNER_SLIDES = [
