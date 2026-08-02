@@ -29,10 +29,25 @@ type Row = Record<string, unknown>;
 type LooseQuery = {
   select: (cols: string) => LooseQuery & PromiseLike<{ data: Row[] | null; error: { message: string } | null }>;
   order: (col: string, opts: { ascending: boolean }) => PromiseLike<{ data: Row[] | null; error: { message: string } | null }>;
-  insert: (payload: Record<string, unknown>) => PromiseLike<{ error: { message: string } | null }>;
-  update: (payload: Record<string, unknown>) => { eq: (col: string, val: string) => PromiseLike<{ error: { message: string } | null }> };
-  delete: () => { eq: (col: string, val: string) => PromiseLike<{ error: { message: string } | null }> };
+  insert: (payload: Record<string, unknown>) => { select: (cols: string) => PromiseLike<WriteResult> };
+  update: (payload: Record<string, unknown>) => {
+    eq: (col: string, val: string) => { select: (cols: string) => PromiseLike<WriteResult> };
+  };
+  delete: () => { eq: (col: string, val: string) => { select: (cols: string) => PromiseLike<WriteResult> } };
 };
+type WriteResult = { data: Row[] | null; error: { message: string } | null };
+
+/**
+ * Row-level security silently filters writes for unauthenticated visitors, so a
+ * write is only real when the database echoes the affected row back.
+ */
+function assertWritten({ data, error }: WriteResult) {
+  if (error) throw new Error(error.message);
+  if (!data || data.length === 0) {
+    throw new Error("Sign in as an operator to change channel records.");
+  }
+}
+
 const db = (table: string): LooseQuery =>
   (supabase as unknown as { from: (t: string) => LooseQuery }).from(table);
 
@@ -147,8 +162,7 @@ function LiveSectionView({ section }: { section: LiveSection }) {
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await db(section.table).delete().eq("id", id);
-      if (error) throw new Error(error.message);
+      assertWritten(await db(section.table).delete().eq("id", id).select("id"));
     },
     onSuccess: () => {
       toast.success("Record deleted");
@@ -437,11 +451,9 @@ function RecordDialog({
       for (const k of Object.keys(payload)) if (payload[k] === undefined) delete payload[k];
 
       if (row) {
-        const { error } = await db(section.table).update(payload).eq("id", String(row["id"]));
-        if (error) throw new Error(error.message);
+        assertWritten(await db(section.table).update(payload).eq("id", String(row["id"])).select("id"));
       } else {
-        const { error } = await db(section.table).insert(payload);
-        if (error) throw new Error(error.message);
+        assertWritten(await db(section.table).insert(payload).select("id"));
       }
     },
     onSuccess: () => {
