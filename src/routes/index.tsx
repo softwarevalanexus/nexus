@@ -204,6 +204,14 @@ function CommandCenter() {
                     >
                       {activeManager === "blackbox"
                         ? <BlackBoxWorkspace />
+                        : LIVE_MANAGERS[activeManager]
+                          ? (
+                            <LiveManagerModule
+                              managerId={activeManager}
+                              sectionId={activeSection}
+                              onSectionChange={openSection}
+                            />
+                          )
                         : cfg
                           ? (
                             <GenericManagerModule
