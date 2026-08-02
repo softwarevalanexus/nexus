@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Mail, User, Phone, KeyRound, QrCode, ShieldCheck, Fingerprint, Eye, EyeOff,
@@ -7,6 +7,7 @@ import {
   CheckCircle2, AlertTriangle, Languages, ArrowRight, Crown,
 } from "lucide-react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -91,6 +92,7 @@ const ECOSYSTEM_NODES = [
 /* ============================ Page ============================ */
 
 function NexusLogin() {
+  const navigate = useNavigate();
   const [method, setMethod] = useState<MethodId>("email");
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
