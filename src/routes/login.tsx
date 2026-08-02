@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Mail, User, Phone, KeyRound, QrCode, ShieldCheck, Fingerprint, Eye, EyeOff,
@@ -7,6 +7,7 @@ import {
   CheckCircle2, AlertTriangle, Languages, ArrowRight, Crown,
 } from "lucide-react";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -91,6 +92,7 @@ const ECOSYSTEM_NODES = [
 /* ============================ Page ============================ */
 
 function NexusLogin() {
+  const navigate = useNavigate();
   const [method, setMethod] = useState<MethodId>("email");
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -117,28 +119,49 @@ function NexusLogin() {
   const onPasswordFocus = () => setStage("typingPass");
   const onBlur = () => setStage((s) => (s === "typingUser" || s === "typingPass" ? "idle" : s));
 
-  const submit = (e: React.FormEvent) => {
+  // Real authentication against Lovable Cloud. Email/password signs in; if the
+  // operator account does not exist yet it is created and signed in directly.
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (submitting) return;
     setSubmitting(true);
-    // Pick a flavor based on method
+
     if (method === "otp") setStage("otp");
     else if (method === "qr") setStage("qr");
     else if (method === "license") setStage("license");
     else setStage("idle");
 
-    // Simulate auth
-    setTimeout(() => {
-      const wrong = password && password.toLowerCase() === "wrong";
-      if (wrong) {
-        setAttempts((a) => a + 1);
-        setStage("wrongPass");
-        setSubmitting(false);
-        return;
+    if (method !== "email") {
+      setStage("securityAlert");
+      setSubmitting(false);
+      return;
+    }
+
+    const email = identifier.trim();
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      if (/invalid login credentials/i.test(error.message)) {
+        const signUp = await supabase.auth.signUp({ email, password });
+        if (!signUp.error && signUp.data.session) {
+          setStage("success");
+          setTimeout(() => navigate({ to: "/" }), 900);
+          return;
+        }
+        if (!signUp.error) {
+          setStage("idle");
+          setSubmitting(false);
+          return;
+        }
       }
-      setStage("success");
-      setTimeout(() => setSubmitting(false), 1400);
-    }, 1100);
+      setAttempts((a) => a + 1);
+      setStage("wrongPass");
+      setSubmitting(false);
+      return;
+    }
+
+    setStage("success");
+    setTimeout(() => navigate({ to: "/" }), 900);
   };
 
   const ai = AI_LINES[stage];

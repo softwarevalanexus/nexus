@@ -14,6 +14,8 @@ import { BrandLogo } from "@/components/brand/BrandLogo";
 import AMSModule from "@/components/ams/AMSModule";
 import { MarketplaceManagerModule } from "@/components/marketplace-manager/MarketplaceManagerModule";
 import { GenericManagerModule } from "@/components/managers/GenericManagerModule";
+import { LiveManagerModule } from "@/components/managers/live/LiveManagerModule";
+import { LIVE_MANAGERS } from "@/components/managers/live/liveConfig";
 import { MANAGER_CONFIGS } from "@/components/managers/managerConfigs";
 
 type CommandSearch = { m?: string; s?: string; t?: string };
@@ -204,6 +206,14 @@ function CommandCenter() {
                     >
                       {activeManager === "blackbox"
                         ? <BlackBoxWorkspace />
+                        : LIVE_MANAGERS[activeManager]
+                          ? (
+                            <LiveManagerModule
+                              managerId={activeManager}
+                              sectionId={activeSection}
+                              onSectionChange={openSection}
+                            />
+                          )
                         : cfg
                           ? (
                             <GenericManagerModule
