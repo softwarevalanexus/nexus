@@ -21,6 +21,21 @@ import { LIVE_MANAGERS, type LiveField, type LiveSection } from "./liveConfig";
 
 type Row = Record<string, unknown>;
 
+/**
+ * Section tables are chosen at runtime from config, so the generated per-table
+ * types cannot be applied statically. This narrow escape hatch keeps the rest
+ * of the module type-safe while still hitting the real database.
+ */
+type LooseQuery = {
+  select: (cols: string) => LooseQuery & PromiseLike<{ data: Row[] | null; error: { message: string } | null }>;
+  order: (col: string, opts: { ascending: boolean }) => PromiseLike<{ data: Row[] | null; error: { message: string } | null }>;
+  insert: (payload: Record<string, unknown>) => PromiseLike<{ error: { message: string } | null }>;
+  update: (payload: Record<string, unknown>) => { eq: (col: string, val: string) => PromiseLike<{ error: { message: string } | null }> };
+  delete: () => { eq: (col: string, val: string) => PromiseLike<{ error: { message: string } | null }> };
+};
+const db = (table: string): LooseQuery =>
+  (supabase as unknown as { from: (t: string) => LooseQuery }).from(table);
+
 /* ------------------------------ formatting ------------------------------- */
 
 const money = (cents: unknown) =>
@@ -105,12 +120,11 @@ function LiveSectionView({ section }: { section: LiveSection }) {
   const rowsQuery = useQuery({
     queryKey: ["live", section.table],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from(section.table)
+      const { data, error } = await db(section.table)
         .select("*")
         .order(section.orderBy.column, { ascending: section.orderBy.ascending ?? true });
       if (error) throw new Error(error.message);
-      return (data ?? []) as Row[];
+      return data ?? [];
     },
   });
 
@@ -120,12 +134,10 @@ function LiveSectionView({ section }: { section: LiveSection }) {
     queryKey: ["live-ref", refField?.refTable],
     enabled: Boolean(refField?.refTable),
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from(refField!.refTable!)
-        .select(`id, ${refField!.refLabel}`);
+      const { data, error } = await db(refField!.refTable!).select(`id, ${refField!.refLabel}`);
       if (error) throw new Error(error.message);
       const map: Record<string, string> = {};
-      for (const r of (data ?? []) as Row[]) {
+      for (const r of data ?? []) {
         map[String(r["id"])] = String(r[refField!.refLabel!] ?? "—");
       }
       return map;
@@ -135,7 +147,7 @@ function LiveSectionView({ section }: { section: LiveSection }) {
 
   const remove = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from(section.table).delete().eq("id", id);
+      const { error } = await db(section.table).delete().eq("id", id);
       if (error) throw new Error(error.message);
     },
     onSuccess: () => {
@@ -425,10 +437,10 @@ function RecordDialog({
       for (const k of Object.keys(payload)) if (payload[k] === undefined) delete payload[k];
 
       if (row) {
-        const { error } = await supabase.from(section.table).update(payload).eq("id", String(row["id"]));
+        const { error } = await db(section.table).update(payload).eq("id", String(row["id"]));
         if (error) throw new Error(error.message);
       } else {
-        const { error } = await supabase.from(section.table).insert(payload);
+        const { error } = await db(section.table).insert(payload);
         if (error) throw new Error(error.message);
       }
     },
