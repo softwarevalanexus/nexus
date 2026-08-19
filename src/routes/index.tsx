@@ -154,8 +154,12 @@ function CommandCenter() {
 
   const activeManager = m && MANAGERS.some((x) => x.id === m) ? m : "home";
   const cfg = MANAGER_CONFIGS[activeManager];
+  // Database-backed managers own their own section list, so resolve the deep
+  // linked section against the live config first — otherwise ?s= would fall
+  // back to the first generic section and break shareable URLs.
+  const sectionSource = LIVE_MANAGERS[activeManager]?.sections ?? cfg?.sections;
   const activeSection =
-    cfg && s && cfg.sections.some((sec) => sec.id === s) ? s : cfg?.sections[0].id;
+    sectionSource && s && sectionSource.some((sec) => sec.id === s) ? s : sectionSource?.[0]?.id;
 
   const openManager = (id: string) =>
     navigate({ search: id === "home" ? {} : { m: id }, resetScroll: true });

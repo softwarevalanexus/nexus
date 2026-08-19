@@ -343,7 +343,7 @@ function LiveSectionView({ section }: { section: LiveSection }) {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
+            <table className="w-full text-left text-sm" data-testid="live-table">
               <thead>
                 <tr className="border-b border-border bg-background/30 text-[10px] uppercase tracking-wider text-muted-foreground">
                   {section.fields.map((f) => (
@@ -354,7 +354,7 @@ function LiveSectionView({ section }: { section: LiveSection }) {
               </thead>
               <tbody>
                 {visible.map((r) => (
-                  <tr key={String(r["id"])} className="border-b border-border/60 last:border-0 hover:bg-background/40">
+                  <tr key={String(r["id"])} data-testid="live-row" className="border-b border-border/60 last:border-0 hover:bg-background/40">
                     {section.fields.map((f) => (
                       <td key={f.key} className="px-4 py-3 text-foreground/90">{displayValue(f, r, refLabels)}</td>
                     ))}
