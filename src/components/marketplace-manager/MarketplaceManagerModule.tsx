@@ -1,6 +1,7 @@
 import { Component, Suspense, useEffect, useState, type ReactNode } from "react";
 import { AlertTriangle, Loader2, RotateCw } from "lucide-react";
-import { MarketplaceTopBar, type SectionId } from "./TopBar";
+import { type SectionId } from "./TopBar";
+import { MarketplaceManagerSidebar } from "./ManagerSidebar";
 import { DashboardSection } from "./sections/DashboardSection";
 import {
   HeroBannerSection, CategoriesSection, WallsSection, PlacementSection, CardsSection,
@@ -34,9 +35,9 @@ export function MarketplaceManagerModule({
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <MarketplaceTopBar active={section} onChange={navigate} />
-      <main>
+    <div className="flex min-h-screen bg-background text-foreground">
+      <MarketplaceManagerSidebar active={section} onChange={navigate} />
+      <main className="min-w-0 flex-1">
         <SectionBoundary sectionKey={section}>
           {renderSection(section, navigate)}
         </SectionBoundary>
