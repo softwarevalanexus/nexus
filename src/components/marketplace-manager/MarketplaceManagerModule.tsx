@@ -1,6 +1,7 @@
 import { Component, Suspense, useEffect, useState, type ReactNode } from "react";
 import { AlertTriangle, Loader2, RotateCw } from "lucide-react";
-import { MarketplaceTopBar, type SectionId } from "./TopBar";
+import { type SectionId } from "./TopBar";
+import { MarketplaceManagerSidebar } from "./ManagerSidebar";
 import { DashboardSection } from "./sections/DashboardSection";
 import {
   HeroBannerSection, CategoriesSection, WallsSection, PlacementSection, CardsSection,
