@@ -75,7 +75,7 @@ import {
  * Section registry — grouped for the mega menu / breadcrumb, flattened for the tab strip.
  * Ordered by workflow (Overview → Homepage → Catalog → Commerce → Growth → Ops).
  */
-const SECTION_GROUPS = [
+export const SECTION_GROUPS = [
   {
     id: "overview",
     label: "Overview",
