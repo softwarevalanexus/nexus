@@ -459,12 +459,15 @@ function ShellInner() {
   const ScreenComp = SCREENS[activeNav];
 
   return (
-    <div className="min-h-screen text-foreground">
+    <div className="flex min-h-screen text-foreground">
       <CommandPalette open={cmdOpen} setOpen={setCmdOpen} onPick={setActiveNav} />
 
-      <header className="sticky top-0 z-30 border-b border-gold bg-[oklch(0.13_0.025_250/0.92)] backdrop-blur-md">
-        <div className="flex items-center gap-4 px-4 py-3 md:px-8">
-          {/* Brand — click for surprise reward */}
+      <aside
+        className="sticky top-0 z-30 flex h-screen w-64 shrink-0 flex-col border-r border-gold bg-[oklch(0.13_0.025_250/0.92)] backdrop-blur-md"
+        data-testid="ams-sidebar"
+        aria-label="AMS navigation"
+      >
+        <div className="border-b border-gold p-4">
           <button
             onClick={surprise}
             onDoubleClick={() => setActiveNav("Dashboard")}
@@ -479,56 +482,50 @@ function ShellInner() {
               <div className="mt-1 text-[9px] uppercase tracking-[0.25em] text-muted-foreground">Software Vala</div>
             </div>
           </button>
-
-          {/* Dashboard pill */}
+        </div>
+        <nav className="flex-1 overflow-y-auto px-2 py-3 scrollbar-thin" data-testid="ams-sidebar-sections">
           <button onClick={() => setActiveNav("Dashboard")}
-            className={`ml-2 hidden items-center gap-2 rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] lg:flex ${
+            className={`mb-3 flex w-full items-center gap-2 rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-[0.16em] ${
               activeNav === "Dashboard" ? "bg-[oklch(0.78_0.14_82/0.14)] text-[#f5d77a] shadow-[inset_0_0_0_1px_oklch(0.78_0.14_82/0.45)]" : "text-muted-foreground hover:bg-[oklch(0.78_0.14_82/0.08)] hover:text-foreground"
             }`}>
             <LayoutDashboard className="h-3.5 w-3.5" /> Dashboard
           </button>
-
-          {/* Mega menus */}
-          <nav className="hidden items-center gap-1 lg:flex">
-            {NAV.map((g) => <MegaMenu key={g.label} group={g} activeNav={activeNav} onPick={setActiveNav} soundOn={soundOn} />)}
-          </nav>
-
-          {/* Mobile: single grouped */}
-          <div className="ml-2 lg:hidden">
-            <MegaMenu group={{ label: "Modules", icon: Layers, tagline: "All AMS screens", items: ALL_ITEMS }} activeNav={activeNav} onPick={setActiveNav} soundOn={soundOn} />
-          </div>
-
-          <div className="ml-auto flex items-center gap-2">
-            {/* Celebrate demo */}
-            <button
-              onClick={() => celebrate({ kind: "rankUp", title: "Promoted to Champion", subtitle: "You crossed 200,000 XP — Rank #4 globally.", rarity: "Legendary", xp: 5000 })}
-              className="hidden items-center gap-2 rounded-full bg-gold-gradient px-3 py-1.5 text-xs font-semibold text-[oklch(0.13_0.025_250)] shadow-[0_8px_20px_-8px_#d4a14a] hover:scale-105 transition-transform md:inline-flex"
-              title="Trigger a premium celebration"
-            >
-              <Sparkles className="h-3.5 w-3.5" /> Celebrate
-            </button>
-
-            <button onClick={() => setCmdOpen(true)} className="hidden items-center gap-2 rounded-full border border-gold bg-[oklch(0.18_0.03_250)] px-3 py-1.5 text-sm text-muted-foreground hover:bg-[oklch(0.78_0.14_82/0.08)] xl:flex">
-              <Search className="h-4 w-4" /><span className="w-44 text-left">Search AMS…</span>
-              <kbd className="rounded border border-gold px-1.5 py-0.5 text-[10px]">⌘K</kbd>
-            </button>
-            <button onClick={() => setCmdOpen(true)} className="grid h-9 w-9 place-items-center rounded-full border border-gold bg-[oklch(0.18_0.03_250)] text-[#f5d77a] xl:hidden"><Search className="h-4 w-4" /></button>
-            <button onClick={() => setSoundOn(!soundOn)} title={soundOn ? "Mute" : "Unmute"} className="grid h-9 w-9 place-items-center rounded-full border border-gold bg-[oklch(0.18_0.03_250)] text-[#f5d77a] hover:bg-[oklch(0.78_0.14_82/0.15)]">
-              {soundOn ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4 opacity-60" />}
-            </button>
-            <button className="grid h-9 w-9 place-items-center rounded-full border border-gold bg-[oklch(0.18_0.03_250)] text-[#f5d77a]"><Bell className="h-4 w-4" /></button>
-            <button onClick={() => setActiveNav("Profile")} className="flex items-center gap-2 rounded-full border border-gold bg-[oklch(0.18_0.03_250)] py-1 pl-1 pr-3 hover:bg-[oklch(0.78_0.14_82/0.08)]">
-              <div className="grid h-7 w-7 place-items-center rounded-full bg-gold-gradient text-[oklch(0.13_0.025_250)] text-[10px] font-bold">{ME.initials}</div>
-              <div className="hidden text-left sm:block">
-                <div className="text-xs font-semibold leading-none">{ME.name}</div>
-                <div className="mt-0.5 text-[9px] uppercase tracking-[0.2em] text-[#d4a14a]">{ME.tier} · Rank {ME.rank}</div>
-              </div>
-            </button>
-          </div>
+          {NAV.map((group) => (
+            <section key={group.label} className="mb-3">
+              <h2 className="px-3 pb-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-[#d4a14a]">{group.label}</h2>
+              {group.items.map((item) => {
+                const Icon = item.icon;
+                const active = item.label === activeNav;
+                return (
+                  <button
+                    key={item.label}
+                    onClick={() => { setActiveNav(item.label); if (soundOn) playCoin(); }}
+                    className={`flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-left text-xs transition-colors ${
+                      active ? "bg-[oklch(0.78_0.14_82/0.14)] text-[#f5d77a]" : "text-muted-foreground hover:bg-[oklch(0.78_0.14_82/0.08)] hover:text-foreground"
+                    }`}
+                  >
+                    <Icon className="h-3.5 w-3.5 shrink-0" />
+                    <span className="truncate">{item.label}</span>
+                  </button>
+                );
+              })}
+            </section>
+          ))}
+        </nav>
+        <div className="space-y-1 border-t border-gold p-2">
+          <button onClick={() => setCmdOpen(true)} className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-xs text-muted-foreground hover:bg-[oklch(0.78_0.14_82/0.08)] hover:text-foreground">
+            <Search className="h-4 w-4" /> Search AMS <kbd className="ml-auto text-[9px]">⌘K</kbd>
+          </button>
+          <button onClick={() => celebrate({ kind: "rankUp", title: "Promoted to Champion", subtitle: "You crossed 200,000 XP — Rank #4 globally.", rarity: "Legendary", xp: 5000 })} className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-xs text-muted-foreground hover:bg-[oklch(0.78_0.14_82/0.08)] hover:text-foreground">
+            <Sparkles className="h-4 w-4" /> Celebrate
+          </button>
+          <button onClick={() => setSoundOn(!soundOn)} className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-xs text-muted-foreground hover:bg-[oklch(0.78_0.14_82/0.08)] hover:text-foreground">
+            {soundOn ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />} {soundOn ? "Sound on" : "Sound off"}
+          </button>
         </div>
-      </header>
+      </aside>
 
-      <main className="px-6 py-8 md:px-10">
+      <main className="min-w-0 flex-1 px-6 py-8 md:px-10">
         {activeNav === "Dashboard" || !ScreenComp ? (
           <DashboardHome onJump={setActiveNav} soundOn={soundOn} />
         ) : (

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { MarketplaceTopbar } from "@/components/marketplace/MarketplaceTopbar";
 import { MarketplaceSidebar } from "@/components/marketplace/MarketplaceSidebar";
 import { HeroBanner } from "@/components/marketplace/HeroBanner";
 import { ProductRow } from "@/components/marketplace/ProductRow";
@@ -59,10 +58,9 @@ function MarketplacePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <MarketplaceTopbar onToggleSidebar={() => setSidebarOpen((v) => !v)} />
       <MarketplaceSidebar open={sidebarOpen} onToggle={() => setSidebarOpen((v) => !v)} />
 
-      <div className={`pt-16 transition-all duration-300 ${sidebarOpen ? "lg:pl-56" : "lg:pl-16"}`}>
+      <div className={`transition-all duration-300 ${sidebarOpen ? "lg:pl-60" : "lg:pl-16"}`}>
         <HeroBanner />
 
         <div className="py-4">

@@ -5,7 +5,7 @@ import {
   Megaphone, Network, Handshake, Building2, ChevronLeft, ChevronRight, Search,
   Bell, MessageSquare, AtSign, AlertTriangle, CheckCircle2, Clock, Activity,
   Sparkles, Command, Star, History, Zap, Crown, Bot, ArrowUpRight, Pause, Play,
-  CircleDot, Flame, BookLock, KeyRound, ChevronDown, Inbox, ArrowLeft, Filter,
+  CircleDot, Flame, BookLock, KeyRound, Inbox, ArrowLeft, Filter,
   Download, Plus, MoreHorizontal, Target, ListChecks, Scale, Award, Server,
   DollarSign, Gauge, Search as SearchIcon,
 } from "lucide-react";
@@ -194,7 +194,6 @@ function CommandCenter() {
 
           ) : (
             <>
-              <TopBar />
               <div className="flex min-h-0 flex-1 gap-4 px-5 pb-3 pt-2">
                 <main className="min-w-0 flex-1 overflow-y-auto scrollbar-thin pr-1">
                   {isHome ? (
@@ -380,7 +379,7 @@ function Sidebar({
 }: { collapsed: boolean; setCollapsed: (b: boolean) => void; active: string; onSelect: (id: string) => void }) {
   const w = collapsed ? "w-[72px]" : "w-[244px]";
   return (
-    <aside className={`${w} relative flex h-full flex-col border-r border-border bg-[color:var(--surface)]/60 backdrop-blur-xl transition-[width] duration-300`}>
+    <aside data-testid="boss-sidebar" aria-label="Boss Panel navigation" className={`${w} relative flex h-full flex-col border-r border-border bg-[color:var(--surface)]/60 backdrop-blur-xl transition-[width] duration-300`}>
       <div className={`flex items-center gap-3 px-4 pt-5 pb-4 ${collapsed ? "justify-center" : ""}`}>
         {collapsed ? (
           <BrandLogo variant="round" size={56} />
@@ -417,6 +416,12 @@ function Sidebar({
           );
         })}
       </nav>
+
+      <div className="border-t border-border px-2 pt-2">
+        <SidebarItem icon={Sparkles} label="Vala AI" collapsed={collapsed} />
+        <SidebarItem icon={Bell} label="Notifications" collapsed={collapsed} badge={3} />
+        <SidebarItem icon={Command} label="Command Search" collapsed={collapsed} />
+      </div>
 
       <button
         onClick={() => setCollapsed(!collapsed)}
@@ -455,53 +460,6 @@ function SidebarItem({
         </span>
       )}
       {active && <span className="absolute left-0 top-1/2 h-5 w-[3px] -translate-y-1/2 rounded-r bg-primary" />}
-    </button>
-  );
-}
-
-/* -------------------------------- Top Bar ------------------------------- */
-
-function TopBar() {
-  return (
-    <header className="flex items-center gap-3 px-5 pt-4 pb-2">
-      <div className="flex items-center gap-2">
-        <div className="text-[13px] text-muted-foreground">Good morning,</div>
-        <div className="text-[13px] font-semibold">Arjun</div>
-        <span className="ml-1 rounded-md bg-[color:var(--surface-2)] px-2 py-0.5 text-[10px] uppercase tracking-wider text-muted-foreground ring-1 ring-border">Founder</span>
-      </div>
-      <div className="ml-4 hidden flex-1 md:flex">
-        <div className="glass flex w-full max-w-xl items-center gap-2 rounded-xl px-3 py-2">
-          <Command className="h-4 w-4 text-muted-foreground" />
-          <input
-            className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-            placeholder="Search anything — decisions, managers, people…"
-          />
-          <kbd className="rounded bg-[color:var(--surface-3)] px-1.5 py-0.5 text-[10px] text-muted-foreground ring-1 ring-border">⌘K</kbd>
-        </div>
-      </div>
-      <div className="ml-auto flex items-center gap-2">
-        <IconBtn><Sparkles className="h-4 w-4" /></IconBtn>
-        <IconBtn badge="3"><Bell className="h-4 w-4" /></IconBtn>
-        <div className="ml-1 flex items-center gap-2 rounded-xl border border-border bg-[color:var(--surface)] px-2 py-1.5">
-          <div className="grid h-7 w-7 place-items-center rounded-lg" style={{ background: "var(--grad-cyan)" }}>
-            <span className="text-[11px] font-bold text-white">AR</span>
-          </div>
-          <div className="leading-tight">
-            <div className="text-xs font-semibold">Arjun R.</div>
-            <div className="text-[10px] text-muted-foreground">Founder · CEO</div>
-          </div>
-          <ChevronDown className="ml-1 h-3.5 w-3.5 text-muted-foreground" />
-        </div>
-      </div>
-    </header>
-  );
-}
-
-function IconBtn({ children, badge }: { children: React.ReactNode; badge?: string }) {
-  return (
-    <button className="relative grid h-9 w-9 place-items-center rounded-xl border border-border bg-[color:var(--surface)] text-muted-foreground hover:text-foreground hover:bg-[color:var(--surface-2)]">
-      {children}
-      {badge && <span className="absolute -right-1 -top-1 grid h-4 min-w-4 place-items-center rounded-full bg-destructive px-1 text-[9px] font-bold text-white">{badge}</span>}
     </button>
   );
 }
