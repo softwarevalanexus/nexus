@@ -44,6 +44,8 @@ export const MarketplaceSidebar = ({ open, onToggle }: Props) => {
 
   return (
     <aside
+      data-testid="marketplace-sidebar"
+      aria-label="Marketplace navigation"
       className={`fixed left-0 top-0 z-40 h-screen border-r border-border bg-background/90 backdrop-blur-xl transition-all duration-300 ${
         open ? "w-60" : "w-16"
       } overflow-hidden`}
@@ -93,7 +95,7 @@ export const MarketplaceSidebar = ({ open, onToggle }: Props) => {
           )}
         </div>
 
-        <nav className="mt-3 flex-1 space-y-1 overflow-y-auto px-2">
+        <nav className="mt-3 flex-1 space-y-1 overflow-y-auto px-2" data-testid="marketplace-sidebar-sections">
           {open && (
             <p className="px-2 pb-1 text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
               Modules

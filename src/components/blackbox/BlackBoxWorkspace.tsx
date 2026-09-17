@@ -129,6 +129,13 @@ const MODULES: ModuleDef[] = [
     primaryAction: "Ask assistant" },
 ];
 
+const MODULE_GROUPS = [
+  { id: "technology", label: "Technology & Response", moduleIds: ["api-ai", "alerts", "killswitch"] },
+  { id: "governance", label: "Access & Governance", moduleIds: ["roles", "approvals", "licenses", "security"] },
+  { id: "operations", label: "Communication & Operations", moduleIds: ["banners", "decisions", "operational", "bi"] },
+  { id: "intelligence", label: "Knowledge & Intelligence", moduleIds: ["knowledge", "register", "assistant"] },
+] satisfies { id: string; label: string; moduleIds: ModuleId[] }[];
+
 export function BlackBoxWorkspace() {
   const [activeId, setActiveId] = useState<ModuleId>(MODULES[0].id);
   const [query, setQuery] = useState("");
@@ -142,7 +149,70 @@ export function BlackBoxWorkspace() {
   const active = MODULES.find((m) => m.id === activeId) ?? MODULES[0];
 
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex min-h-full gap-4" data-testid="blackbox-workspace">
+      <aside
+        className="sticky top-0 flex h-[calc(100vh-6.5rem)] w-60 shrink-0 flex-col overflow-hidden rounded-xl border border-border bg-[color:var(--surface)]/80 backdrop-blur-xl"
+        data-testid="blackbox-sidebar"
+        aria-label="Black Box modules"
+      >
+        <div className="border-b border-border px-3 py-3">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">Black Box walls</div>
+          <div className="mt-2 flex items-center gap-2 rounded-lg border border-border bg-[color:var(--surface-2)] px-2.5 py-2 focus-within:ring-1 focus-within:ring-primary/40">
+            <Search className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+            <input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Find wall…"
+              className="w-full bg-transparent text-[12px] text-foreground outline-none placeholder:text-muted-foreground"
+            />
+          </div>
+        </div>
+        <nav className="flex-1 overflow-y-auto px-2 py-2 scrollbar-thin">
+          {MODULE_GROUPS.map((group) => {
+            const modules = filtered.filter((mod) => group.moduleIds.some((id) => id === mod.id));
+            if (modules.length === 0) return null;
+            return (
+              <section key={group.id} className="mb-3" data-testid={`blackbox-group-${group.id}`}>
+                <h2 className="px-2 pb-1 text-[9px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  {group.label}
+                </h2>
+                <div className="space-y-0.5">
+                  {modules.map((mod) => {
+                    const Icon = mod.icon;
+                    const isActive = mod.id === active.id;
+                    return (
+                      <button
+                        key={mod.id}
+                        type="button"
+                        onClick={() => setActiveId(mod.id)}
+                        data-testid={`blackbox-module-${mod.id}`}
+                        aria-current={isActive ? "page" : undefined}
+                        className={`relative flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-[12px] transition-colors ${
+                          isActive
+                            ? "bg-[color:var(--surface-3)] text-foreground ring-1 ring-border"
+                            : "text-muted-foreground hover:bg-[color:var(--surface-2)] hover:text-foreground"
+                        }`}
+                      >
+                        <span className="grid h-6 w-6 shrink-0 place-items-center rounded-md ring-1 ring-white/10" style={{ background: mod.grad }}>
+                          <Icon className="h-3.5 w-3.5 text-white" />
+                        </span>
+                        <span className="min-w-0 flex-1 truncate">{mod.short}</span>
+                        <span className="tabular-nums text-[9px] text-muted-foreground">{String(mod.num).padStart(2, "0")}</span>
+                        {isActive && <span className="absolute inset-y-2 left-0 w-0.5 rounded-r bg-primary" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+            );
+          })}
+          {filtered.length === 0 && (
+            <p className="px-2 py-4 text-center text-[11px] text-muted-foreground">No walls match “{query}”.</p>
+          )}
+        </nav>
+      </aside>
+
+      <div className="min-w-0 flex-1">
       {/* Module Header */}
       <section className="relative overflow-hidden rounded-2xl border border-border" style={{ boxShadow: "var(--shadow-elevated)" }}>
         <div className="absolute inset-0" style={{ background: "var(--grad-cyan)" }} />
@@ -177,54 +247,12 @@ export function BlackBoxWorkspace() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2 ring-1 ring-white/20 backdrop-blur">
-              <Search className="h-3.5 w-3.5 text-white/80" />
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Find wall…"
-                className="w-44 bg-transparent text-[12px] text-white outline-none placeholder:text-white/60"
-              />
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* Top Bar Module Nav */}
-      <nav className="mt-3 rounded-2xl border border-border bg-[color:var(--surface)]/70 backdrop-blur-xl" style={{ boxShadow: "var(--shadow-card)" }}>
-        <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-thin px-2 py-2">
-          {filtered.map((m) => {
-            const Icon = m.icon;
-            const isActive = m.id === active.id;
-            return (
-              <button
-                key={m.id}
-                onClick={() => setActiveId(m.id)}
-                className={`group relative flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-[12px] font-medium transition-colors ${
-                  isActive
-                    ? "bg-[color:var(--surface-3)] text-foreground ring-1 ring-border"
-                    : "text-muted-foreground hover:text-foreground hover:bg-[color:var(--surface-2)]"
-                }`}
-                title={m.label}
-              >
-                <span className="grid h-5 w-5 place-items-center rounded-md ring-1 ring-white/10" style={{ background: m.grad }}>
-                  <Icon className="h-3 w-3 text-white" />
-                </span>
-                <span className="tabular-nums text-[10px] text-muted-foreground">{String(m.num).padStart(2, "0")}</span>
-                <span className="whitespace-nowrap">{m.short}</span>
-                {isActive && <span className="absolute -bottom-[9px] left-3 right-3 h-[2px] rounded-full" style={{ background: m.grad }} />}
-              </button>
-            );
-          })}
-          {filtered.length === 0 && (
-            <div className="px-3 py-2 text-[12px] text-muted-foreground">No walls match "{query}"</div>
-          )}
-        </div>
-      </nav>
-
       {/* Module Body */}
       <ModulePanel mod={active} />
+      </div>
     </div>
   );
 }

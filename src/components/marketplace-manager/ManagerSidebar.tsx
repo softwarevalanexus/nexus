@@ -74,6 +74,8 @@ export function MarketplaceManagerSidebar({
   return (
     <>
       <aside
+        data-testid="marketplace-manager-sidebar"
+        aria-label="Marketplace Manager navigation"
         className={`sticky top-0 flex h-screen shrink-0 flex-col border-r border-border bg-[oklch(0.16_0.03_240/0.78)] backdrop-blur-2xl backdrop-saturate-150 transition-all duration-300 ${
           collapsed ? "w-[68px]" : "w-64"
         }`}

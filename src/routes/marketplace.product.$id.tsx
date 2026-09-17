@@ -6,7 +6,6 @@ import {
   Hospital, Tv, MessageSquare, ChevronRight, Building2,
 } from "lucide-react";
 import { products } from "@/lib/marketplaceData";
-import { MarketplaceTopbar } from "@/components/marketplace/MarketplaceTopbar";
 import { MarketplaceSidebar } from "@/components/marketplace/MarketplaceSidebar";
 
 export const Route = createFileRoute("/marketplace/product/$id")({
@@ -28,9 +27,8 @@ function ProductDetailPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <MarketplaceTopbar onToggleSidebar={() => setSidebarOpen((v) => !v)} />
       <MarketplaceSidebar open={sidebarOpen} onToggle={() => setSidebarOpen((v) => !v)} />
-      <div className={`pt-16 transition-all duration-300 ${sidebarOpen ? "lg:pl-56" : "lg:pl-16"}`}>
+      <div className={`transition-all duration-300 ${sidebarOpen ? "lg:pl-60" : "lg:pl-16"}`}>
         <div className="px-6 py-6">
           <div className="mb-4 flex items-center gap-2 text-xs text-muted-foreground">
             <Link to="/marketplace" className="hover:text-foreground">Marketplace</Link>

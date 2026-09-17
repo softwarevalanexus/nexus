@@ -2,7 +2,6 @@ import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { products, categories } from "@/lib/marketplaceData";
-import { MarketplaceTopbar } from "@/components/marketplace/MarketplaceTopbar";
 import { MarketplaceSidebar } from "@/components/marketplace/MarketplaceSidebar";
 import { ProductCard } from "@/components/marketplace/ProductCard";
 
@@ -17,9 +16,8 @@ function CategoryPage() {
   const list = products.filter((p) => p.categorySlug === slug);
   return (
     <div className="min-h-screen bg-background">
-      <MarketplaceTopbar onToggleSidebar={() => setSidebarOpen((v) => !v)} />
       <MarketplaceSidebar open={sidebarOpen} onToggle={() => setSidebarOpen((v) => !v)} />
-      <div className={`pt-16 transition-all duration-300 ${sidebarOpen ? "lg:pl-56" : "lg:pl-16"}`}>
+      <div className={`transition-all duration-300 ${sidebarOpen ? "lg:pl-60" : "lg:pl-16"}`}>
         <div className="px-6 py-8">
           <Link to="/marketplace" className="inline-flex items-center gap-1 text-xs font-semibold text-cyan-300 hover:text-cyan-200">
             <ArrowLeft className="h-3.5 w-3.5" /> Back to marketplace
