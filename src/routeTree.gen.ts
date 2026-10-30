@@ -9,19 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as MarketplaceRouteImport } from './routes/marketplace'
-import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as MarketplacePageRouteImport } from './routes/marketplace.$page'
-import { Route as MarketplaceVendorIdRouteImport } from './routes/marketplace.vendor.$id'
-import { Route as MarketplaceProductIdRouteImport } from './routes/marketplace.product.$id'
-import { Route as MarketplacePartnerSlugRouteImport } from './routes/marketplace.partner.$slug'
-import { Route as MarketplaceIndustrySlugRouteImport } from './routes/marketplace.industry.$slug'
 import { Route as MarketplaceCategorySlugRouteImport } from './routes/marketplace.category.$slug'
+import { Route as MarketplaceIndustrySlugRouteImport } from './routes/marketplace.industry.$slug'
+import { Route as MarketplacePartnerSlugRouteImport } from './routes/marketplace.partner.$slug'
+import { Route as MarketplaceProductIdRouteImport } from './routes/marketplace.product.$id'
+import { Route as MarketplaceVendorIdRouteImport } from './routes/marketplace.vendor.$id'
 
-const MarketplaceRoute = MarketplaceRouteImport.update({
-  id: '/marketplace',
-  path: '/marketplace',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -29,9 +29,9 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const MarketplaceRoute = MarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MarketplacePageRoute = MarketplacePageRouteImport.update({
@@ -39,19 +39,9 @@ const MarketplacePageRoute = MarketplacePageRouteImport.update({
   path: '/$page',
   getParentRoute: () => MarketplaceRoute,
 } as any)
-const MarketplaceVendorIdRoute = MarketplaceVendorIdRouteImport.update({
-  id: '/vendor/$id',
-  path: '/vendor/$id',
-  getParentRoute: () => MarketplaceRoute,
-} as any)
-const MarketplaceProductIdRoute = MarketplaceProductIdRouteImport.update({
-  id: '/product/$id',
-  path: '/product/$id',
-  getParentRoute: () => MarketplaceRoute,
-} as any)
-const MarketplacePartnerSlugRoute = MarketplacePartnerSlugRouteImport.update({
-  id: '/partner/$slug',
-  path: '/partner/$slug',
+const MarketplaceCategorySlugRoute = MarketplaceCategorySlugRouteImport.update({
+  id: '/category/$slug',
+  path: '/category/$slug',
   getParentRoute: () => MarketplaceRoute,
 } as any)
 const MarketplaceIndustrySlugRoute = MarketplaceIndustrySlugRouteImport.update({
@@ -59,9 +49,19 @@ const MarketplaceIndustrySlugRoute = MarketplaceIndustrySlugRouteImport.update({
   path: '/industry/$slug',
   getParentRoute: () => MarketplaceRoute,
 } as any)
-const MarketplaceCategorySlugRoute = MarketplaceCategorySlugRouteImport.update({
-  id: '/category/$slug',
-  path: '/category/$slug',
+const MarketplacePartnerSlugRoute = MarketplacePartnerSlugRouteImport.update({
+  id: '/partner/$slug',
+  path: '/partner/$slug',
+  getParentRoute: () => MarketplaceRoute,
+} as any)
+const MarketplaceProductIdRoute = MarketplaceProductIdRouteImport.update({
+  id: '/product/$id',
+  path: '/product/$id',
+  getParentRoute: () => MarketplaceRoute,
+} as any)
+const MarketplaceVendorIdRoute = MarketplaceVendorIdRouteImport.update({
+  id: '/vendor/$id',
+  path: '/vendor/$id',
   getParentRoute: () => MarketplaceRoute,
 } as any)
 
@@ -143,11 +143,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/marketplace': {
-      id: '/marketplace'
-      path: '/marketplace'
-      fullPath: '/marketplace'
-      preLoaderRoute: typeof MarketplaceRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -157,11 +157,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/marketplace': {
+      id: '/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof MarketplaceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/marketplace/$page': {
@@ -171,25 +171,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketplacePageRouteImport
       parentRoute: typeof MarketplaceRoute
     }
-    '/marketplace/vendor/$id': {
-      id: '/marketplace/vendor/$id'
-      path: '/vendor/$id'
-      fullPath: '/marketplace/vendor/$id'
-      preLoaderRoute: typeof MarketplaceVendorIdRouteImport
-      parentRoute: typeof MarketplaceRoute
-    }
-    '/marketplace/product/$id': {
-      id: '/marketplace/product/$id'
-      path: '/product/$id'
-      fullPath: '/marketplace/product/$id'
-      preLoaderRoute: typeof MarketplaceProductIdRouteImport
-      parentRoute: typeof MarketplaceRoute
-    }
-    '/marketplace/partner/$slug': {
-      id: '/marketplace/partner/$slug'
-      path: '/partner/$slug'
-      fullPath: '/marketplace/partner/$slug'
-      preLoaderRoute: typeof MarketplacePartnerSlugRouteImport
+    '/marketplace/category/$slug': {
+      id: '/marketplace/category/$slug'
+      path: '/category/$slug'
+      fullPath: '/marketplace/category/$slug'
+      preLoaderRoute: typeof MarketplaceCategorySlugRouteImport
       parentRoute: typeof MarketplaceRoute
     }
     '/marketplace/industry/$slug': {
@@ -199,11 +185,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MarketplaceIndustrySlugRouteImport
       parentRoute: typeof MarketplaceRoute
     }
-    '/marketplace/category/$slug': {
-      id: '/marketplace/category/$slug'
-      path: '/category/$slug'
-      fullPath: '/marketplace/category/$slug'
-      preLoaderRoute: typeof MarketplaceCategorySlugRouteImport
+    '/marketplace/partner/$slug': {
+      id: '/marketplace/partner/$slug'
+      path: '/partner/$slug'
+      fullPath: '/marketplace/partner/$slug'
+      preLoaderRoute: typeof MarketplacePartnerSlugRouteImport
+      parentRoute: typeof MarketplaceRoute
+    }
+    '/marketplace/product/$id': {
+      id: '/marketplace/product/$id'
+      path: '/product/$id'
+      fullPath: '/marketplace/product/$id'
+      preLoaderRoute: typeof MarketplaceProductIdRouteImport
+      parentRoute: typeof MarketplaceRoute
+    }
+    '/marketplace/vendor/$id': {
+      id: '/marketplace/vendor/$id'
+      path: '/vendor/$id'
+      fullPath: '/marketplace/vendor/$id'
+      preLoaderRoute: typeof MarketplaceVendorIdRouteImport
       parentRoute: typeof MarketplaceRoute
     }
   }
